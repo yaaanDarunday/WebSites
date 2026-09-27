@@ -1,0 +1,21 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Dependencies & builds
+node_modules/
+dist/
+.cache/
+
+# Tooling artifacts
+.playwright-mcp/
+*.log
+
+# Local Claude Code settings (keep shared skills in .claude/skills)
+.claude/settings.local.json
+
+# Third-party site screenshots (kept locally, not published)
+gsap-showcase-study/shots/
