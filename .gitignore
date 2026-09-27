@@ -19,3 +19,6 @@ dist/
 
 # Third-party site screenshots (kept locally, not published)
 gsap-showcase-study/shots/
+
+# Screenshots taken by building-gsap-sites-from-fresh-references (third-party work)
+.shots/
