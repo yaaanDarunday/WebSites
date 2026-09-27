@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en" class="is-loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Altura Coffee — From 1,850 m to the river</title>
+  <meta name="description" content="Altura Coffee: small-lot coffee roasted on the hill and poured by the river on Wharf Street. Follow the trail from farm to cup.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' fill='%231a1f15'/%3E%3Cpath d='M4 28 L15 11 L21 19 L26 13 L33 28' fill='none' stroke='%23e6f5b3' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Preloader: the trail surveys itself -->
+  <div class="loader" aria-hidden="true">
+    <ul class="loader-log">
+      <li>Plotting contours</li>
+      <li>Walking the ridge</li>
+      <li>Turning the drying beds</li>
+      <li>Heating the drum</li>
+      <li>Steaming milk</li>
+    </ul>
+    <svg class="loader-trail" viewBox="0 0 240 160">
+      <polyline points="20,20 48,34 40,58 76,70 92,62 118,92 150,96 162,122 206,138" />
+      <circle cx="20" cy="20" r="6" /><circle cx="76" cy="70" r="6" /><circle cx="150" cy="96" r="6" /><circle cx="206" cy="138" r="6" />
+    </svg>
+    <p class="loader-count"><span class="loader-num">000</span>%</p>
+  </div>
+
+  <!-- ============ STAGE: the trail map ============ -->
+  <section class="stage" id="trail" aria-label="The Altura trail, from farm to cup">
+    <div class="stage-map" aria-hidden="true">
+      <svg class="map" id="map" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <pattern id="halo-grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M10 0H0V10" fill="none" stroke="var(--trail)" stroke-width="0.8" />
+          </pattern>
+          <radialGradient id="halo-fade">
+            <stop offset="0" stop-color="#fff" stop-opacity="1" />
+            <stop offset="0.6" stop-color="#fff" stop-opacity="0.7" />
+            <stop offset="1" stop-color="#fff" stop-opacity="0" />
+          </radialGradient>
+          <mask id="halo-mask" maskContentUnits="objectBoundingBox">
+            <rect width="1" height="1" fill="url(#halo-fade)" />
+          </mask>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+        <g class="map-terrain"></g>
+        <g class="map-water"></g>
+        <g class="map-labels"></g>
+        <g class="map-trail"></g>
+        <g class="map-stops"></g>
+      </svg>
+    </div>
+
+    <!-- Survey lines + frame HUD (overview only) -->
+    <div class="survey" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><b></b><b></b>
+    </div>
+
+    <header class="rail">
+      <a class="brand" href="#trail" aria-label="Altura Coffee, back to the trail">
+        <svg class="brand-mark" viewBox="0 0 36 24" aria-hidden="true"><path d="M1 22 L12 5 L18 13 L23 7 L35 22" /></svg>
+        <span class="brand-word">Altura</span>
+      </a>
+      <p class="rail-title">The Altura trail</p>
+      <ol class="legend-stops" aria-label="Stops on the trail"></ol>
+      <ul class="legend-keys" aria-label="Map key">
+        <li><i class="key key-trail"></i>Trail</li>
+        <li><i class="key key-river"></i>River</li>
+        <li><i class="key key-contour"></i>Contour, 50 m</li>
+        <li><i class="key key-index"></i>Index contour</li>
+      </ul>
+    </header>
+
+    <div class="ruler" aria-hidden="true">
+      <span class="ruler-sun"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.5" /><path d="M10 1v3M10 16v3M1 10h3M16 10h3M3.6 3.6l2.1 2.1M14.3 14.3l2.1 2.1M3.6 16.4l2.1-2.1M14.3 5.7l2.1-2.1" /></svg></span>
+      <span class="ruler-clock">--:--:-- local</span>
+      <span class="ruler-status"><i></i><em>Checking hours</em></span>
+      <span>Est. 2019</span>
+      <span class="ruler-compass"><svg viewBox="0 0 20 20"><path d="M10 1 L13 10 L10 19 L7 10 Z" /><circle cx="10" cy="10" r="1.3" /></svg></span>
+    </div>
+
+    <p class="side side-l" aria-hidden="true">Small-lot roasters · Wharf Street</p>
+    <p class="side side-r" aria-hidden="true">Hand-picked · Slow-dried · Poured by the river</p>
+
+    <h1 class="statement">
+      <span>Coffee that</span>
+      <span>takes the</span>
+      <span>long way down</span>
+      <span>the mountain</span>
+    </h1>
+
+    <button class="skip" type="button">Skip the trail <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M2 7l4 4 4-4" /></svg></button>
+
+    <div class="scalebar" aria-hidden="true">
+      <span class="scalebar-l"><i></i>1 : 25 000</span>
+      <span class="scalebar-r">Alt <b class="alt-num">1,850</b> m</span>
+    </div>
+
+    <article class="card" aria-live="polite">
+      <p class="card-kicker"><span class="card-step">The trail</span><span class="card-count">4 stops</span></p>
+      <h2 class="card-title">Farm to cup</h2>
+      <p class="card-text">From a cloud-forest ridge down to a café by the river. Scroll to follow the bean.</p>
+    </article>
+
+    <p class="hint" aria-hidden="true">Scroll to follow the bean</p>
+
+    <!-- Static list of stops: mobile, reduced motion, screen readers -->
+    <ol class="stop-list"></ol>
+  </section>
+
+  <main>
+    <!-- ============ MENU ============ -->
+    <section class="sec sec-menu" id="menu" data-tab="menu" aria-labelledby="menu-title">
+      <div class="sec-head">
+        <p class="sec-kicker">Stop 04 · The café</p>
+        <h2 class="sec-title" id="menu-title">Menu</h2>
+        <p class="sec-lede">One espresso blend, two single origins on filter, and whatever came out of the oven at six.</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-group" data-pop>
+          <h3>Espresso bar</h3>
+          <ul>
+            <li><span class="m-name">Espresso</span><span class="m-note">Altura house, chocolate &amp; plum</span><span class="m-price">3.2</span></li>
+            <li><span class="m-name">Cortado</span><span class="m-note">Equal parts, no foam art debate</span><span class="m-price">3.8</span></li>
+            <li><span class="m-name">Flat white</span><span class="m-note">Double ristretto, whole or oat</span><span class="m-price">4.2</span></li>
+            <li><span class="m-name">Ridge latte</span><span class="m-note">Brown-butter syrup, sea salt</span><span class="m-price">4.9</span></li>
+          </ul>
+        </div>
+        <div class="menu-group" data-pop>
+          <h3>Filter &amp; slow</h3>
+          <ul>
+            <li><span class="m-name">Batch brew</span><span class="m-note">Rotating single origin</span><span class="m-price">3.4</span></li>
+            <li><span class="m-name">Pour-over</span><span class="m-note">V60, four minutes, worth it</span><span class="m-price">5.5</span></li>
+            <li><span class="m-name">Cold brew</span><span class="m-note">Eighteen hours in the river-cold fridge</span><span class="m-price">4.6</span></li>
+            <li><span class="m-name">Cascara tonic</span><span class="m-note">Dried cherry tea, tonic, orange</span><span class="m-price">5.0</span></li>
+          </ul>
+        </div>
+        <div class="menu-group" data-pop>
+          <h3>Not coffee</h3>
+          <ul>
+            <li><span class="m-name">Hot chocolate</span><span class="m-note">70% single-estate, whole milk</span><span class="m-price">4.4</span></li>
+            <li><span class="m-name">Chai</span><span class="m-note">Brewed from whole spice, not syrup</span><span class="m-price">4.5</span></li>
+            <li><span class="m-name">Fresh mint</span><span class="m-note">A handful of it, hot water</span><span class="m-price">3.0</span></li>
+          </ul>
+        </div>
+        <div class="menu-group" data-pop>
+          <h3>From the oven</h3>
+          <ul>
+            <li><span class="m-name">Cardamom bun</span><span class="m-note">Until they're gone, usually 10am</span><span class="m-price">3.9</span></li>
+            <li><span class="m-name">Olive oil cake</span><span class="m-note">Orange, rosemary, a lot of oil</span><span class="m-price">4.2</span></li>
+            <li><span class="m-name">Trail toast</span><span class="m-note">Sourdough, ricotta, honey, walnut</span><span class="m-price">7.5</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BEANS ============ -->
+    <section class="sec sec-beans" id="beans" data-tab="beans" aria-labelledby="beans-title">
+      <div class="sec-head">
+        <p class="sec-kicker">Stop 03 · The roastery</p>
+        <h2 class="sec-title" id="beans-title">Beans</h2>
+        <p class="sec-lede">Roasted Tuesdays and Fridays in a twelve-kilo drum. Bags are packed the same afternoon.</p>
+      </div>
+      <div class="beans-grid"></div>
+    </section>
+
+    <!-- ============ VISIT ============ -->
+    <section class="sec sec-visit" id="visit" data-tab="visit" aria-labelledby="visit-title">
+      <div class="sec-head">
+        <p class="sec-kicker">Elevation 40 m · End of the trail</p>
+        <h2 class="sec-title" id="visit-title">Visit</h2>
+      </div>
+      <div class="visit-grid">
+        <div class="visit-where" data-pop>
+          <p class="visit-address">14 Wharf<br>Street</p>
+          <p class="visit-sub">By the footbridge, the green door under the chestnut tree.</p>
+          <p class="visit-links">
+            <a href="https://maps.google.com/?q=Wharf+Street" target="_blank" rel="noopener">Get directions <span aria-hidden="true">↗</span></a>
+            <a href="mailto:hello@altura.coffee">hello@altura.coffee</a>
+          </p>
+        </div>
+        <div class="visit-hours" data-pop>
+          <p class="visit-status"><i></i><span>Checking hours</span></p>
+          <table>
+            <caption class="sr-only">Opening hours</caption>
+            <tbody></tbody>
+          </table>
+        </div>
+        <figure class="visit-map" data-pop aria-hidden="true">
+          <svg viewBox="0 0 600 300">
+            <path class="vm-river" d="M-10 210 C 90 180 150 250 260 225 S 430 150 610 185" />
+            <path class="vm-street" d="M40 40 L 560 90" /><path class="vm-street" d="M150 0 L 190 300" /><path class="vm-street" d="M400 0 L 360 300" />
+            <path class="vm-bridge" d="M300 180 L 312 250" />
+            <path class="vm-route" d="M70 60 L 170 70 L 176 140 L 300 150 L 306 190" />
+            <circle class="vm-you" cx="70" cy="60" r="6" />
+            <g class="vm-pin" transform="translate(306 190)"><circle r="13" /><path d="M-5 -2 h10 v6 a5 5 0 0 1 -10 0z M5 0 h3 a2.5 2.5 0 0 1 0 5 h-3" /></g>
+            <text x="82" y="52">You</text><text x="324" y="200">Altura</text><text class="vm-river-label" x="440" y="176">Río Lento</text>
+          </svg>
+        </figure>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p class="foot-big" data-pop>From 1,850 m<br>to sea level.</p>
+      <div class="foot-row">
+        <span>Altura Coffee · 14 Wharf Street</span>
+        <span>A fictional café, built as a design study</span>
+        <a href="#trail" class="foot-top">Back up the trail ↑</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Tab bar: the active tab fills with its section's colour -->
+  <nav class="tabs" aria-label="Sections">
+    <a class="tab tab-brand" href="#trail" data-tab="trail"><span class="tab-label">Trail</span></a>
+    <a class="tab" href="#menu" data-tab="menu"><span class="tab-label">Menu</span></a>
+    <a class="tab" href="#beans" data-tab="beans"><span class="tab-label">Beans</span></a>
+    <a class="tab" href="#visit" data-tab="visit"><span class="tab-label">Visit</span></a>
+    <a class="tab tab-order" href="mailto:hello@altura.coffee?subject=Order%20ahead"><span class="tab-label">Order ahead</span><span class="tab-arrow" aria-hidden="true">↗</span></a>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3-array@3/dist/d3-array.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-contour@4/dist/d3-contour.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

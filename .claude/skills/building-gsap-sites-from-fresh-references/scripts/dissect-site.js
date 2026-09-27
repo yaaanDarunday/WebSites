@@ -61,7 +61,7 @@
   // Runtime: libraries and live GSAP state
   const g = window.gsap, ST = window.ScrollTrigger;
   const triggers = ST?.getAll?.() || [];
-  const scripts = [...document.scripts].map(s => s.src).filter(Boolean).map(s => s.split('?')[0].split('/').slice(-2).join('/'));
+  const scripts = [...new Set([...document.scripts].map(s => s.src).filter(Boolean).map(s => s.split('?')[0].split('/').slice(-2).join('/')))];
 
   return {
     url: location.href,

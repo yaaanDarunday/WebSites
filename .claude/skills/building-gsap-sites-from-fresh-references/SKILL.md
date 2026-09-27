@@ -68,3 +68,6 @@ Append the studied sites and the new build row, including its palette structure 
 | Screenshots frozen or blank | Hidden tab, so rAF is paused | Use a visible Playwright page |
 | Study wanders off into vague adjectives | No numbers | Every section needs px, hex and ease values from the dissect output |
 | Next run repeats these sites | Ledger not updated or not committed | Step 7 is part of the run |
+| `File access denied … outside allowed roots` when saving | The Playwright MCP only writes inside its own workspace | Save into its `.playwright-mcp/` folder, then move the files to `.shots/` |
+| `require is not defined` in `browser_run_code_unsafe` | That sandbox has no Node APIs, so it can't read the scripts | Paste the script body into `browser_evaluate` |
+| `goto` fails with "interrupted by another navigation" | The site redirects while loading | Go to `about:blank` first, then retry with `waitUntil: "load"` |
