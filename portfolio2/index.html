@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Juno Raske — Director & Cinematographer</title>
+  <meta name="description" content="Director and cinematographer. Commercials, music videos and short film.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%275%27 fill=%27%23ff3a20%27/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="is-loading">
+
+  <!-- Preloader: a slate. Timecode odometer, scrambled slate labels, then the
+       two halves split open like letterbox bars. -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-half loader-half--top"></div>
+    <div class="loader-half loader-half--bot"></div>
+    <div class="loader-content">
+      <span class="loader-label loader-label--tl" data-scramble>Juno Raske — Showreel 2026</span>
+      <span class="loader-label loader-label--tr" data-scramble>Roll A / Scene 01 / Take 03</span>
+      <div class="loader-tc"><span class="odo" data-pattern="00:00:00:00"></span></div>
+      <span class="loader-label loader-label--bl"><i class="rec-dot"></i> Rec</span>
+      <span class="loader-label loader-label--br" data-scramble>24 fps / 2.39:1</span>
+      <i class="loader-line"></i>
+    </div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
+
+  <!-- Shot-list hover preview (decorative) -->
+  <div class="preview" aria-hidden="true"><div class="preview-inner"></div></div>
+
+  <!-- Top HUD -->
+  <header class="hud">
+    <a class="brand" href="#open" data-cursor="Top"><span class="roll"><span data-text="Juno Raske">Juno Raske</span></span></a>
+    <p class="hud-avail mono">Booking Q1 2027 productions</p>
+    <p class="hud-rec mono"><i class="rec-dot"></i> Rec <time class="clock">--:--:--</time></p>
+  </header>
+
+  <!-- Bottom HUD: an edit timeline. Clips = sections, playhead = scroll. -->
+  <nav class="deck" aria-label="Sections">
+    <p class="deck-tc mono" aria-hidden="true">00:00:00:00</p>
+    <div class="deck-track">
+      <a class="deck-clip" href="#open"><span class="deck-name">Open</span><i class="deck-fill"></i></a>
+      <a class="deck-clip" href="#reel"><span class="deck-name">Reel <sup>06</sup></span><i class="deck-fill"></i></a>
+      <a class="deck-clip" href="#shots"><span class="deck-name">Shot list</span><i class="deck-fill"></i></a>
+      <a class="deck-clip" href="#about"><span class="deck-name">About</span><i class="deck-fill"></i></a>
+      <a class="deck-clip" href="#cut"><span class="deck-name">Cut to</span><i class="deck-fill"></i></a>
+      <i class="deck-head" aria-hidden="true"></i>
+    </div>
+    <p class="deck-meta mono" aria-hidden="true">X <span class="xy-x">0000</span> Y <span class="xy-y">0000</span></p>
+  </nav>
+
+  <main>
+    <!-- OPEN: letterboxed still opens to full-bleed on scroll -->
+    <section class="hero" id="open" data-section>
+      <div class="hero-pin">
+        <div class="hero-frame" data-cursor="Play">
+          <div class="hero-mask"><div class="still" data-scene="dusk"><i class="still-sun"></i><i class="still-glint"></i></div></div>
+          <span class="crop crop--tl"></span><span class="crop crop--tr"></span><span class="crop crop--bl"></span><span class="crop crop--br"></span>
+          <p class="hero-frame-tc mono" aria-hidden="true">A001_C003 · 01:04:22:17</p>
+        </div>
+
+        <p class="hero-eyebrow mono" data-scramble>[ Director &amp; Cinematographer ]</p>
+        <p class="hero-slate mono">Scene 01 — Take 03</p>
+
+        <h1 class="hero-title" aria-label="Juno Raske">
+          <span class="hero-word hero-word--l">Juno</span>
+          <span class="hero-word hero-word--r"><em>Raske</em></span>
+        </h1>
+
+        <p class="hero-intro">I direct and shoot commercials, music videos and short films — mostly at the edges of the day, mostly on whatever holds light best.</p>
+        <table class="spec mono">
+          <tr><th>Based</th><td>Lisbon / Anywhere</td></tr>
+          <tr><th>Format</th><td>Alexa 35, 16mm</td></tr>
+          <tr><th>Rep</th><td>Low Tide Pictures</td></tr>
+        </table>
+        <p class="scroll-hint mono">Scroll to roll <span class="scroll-arrow">↓</span></p>
+      </div>
+    </section>
+
+    <!-- STATEMENT: word-by-word scroll highlight -->
+    <section class="statement">
+      <p class="section-label mono">[ Treatment ]</p>
+      <p class="statement-text">I shoot like an editor thinks. Every frame has to earn the <em>next</em> one — so the light, the lens and the cut are decided together, long before anyone says action.</p>
+    </section>
+
+    <!-- REEL: pinned horizontal film strip on desktop, stacked elsewhere -->
+    <section class="reel" id="reel" data-section>
+      <div class="reel-head">
+        <p class="section-label mono">[ Selected reel ]</p>
+        <p class="reel-count"><span class="odo" data-pattern="00"></span><span class="reel-total">/06</span></p>
+      </div>
+      <div class="reel-gate">
+        <ol class="reel-track"></ol>
+      </div>
+      <div class="reel-meta" aria-live="polite">
+        <h2 class="reel-title" data-field="title"></h2>
+        <dl class="reel-spec mono">
+          <div><dt>Type</dt><dd data-field="type"></dd></div>
+          <div><dt>Client</dt><dd data-field="client"></dd></div>
+          <div><dt>Shot on</dt><dd data-field="format"></dd></div>
+          <div><dt>Year</dt><dd data-field="year"></dd></div>
+          <div><dt>Festival</dt><dd data-field="award"></dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- SHOT LIST: services, with a cursor-following preview frame -->
+    <section class="shots" id="shots" data-section>
+      <p class="section-label mono">[ Shot list ]</p>
+      <ul class="shot-list">
+        <li class="shot" data-preview="0">
+          <span class="shot-no mono">Sc. 01</span>
+          <span class="shot-name">Commercials</span>
+          <span class="shot-desc mono">Ext. — Brands, 15s to 90s</span>
+        </li>
+        <li class="shot" data-preview="1">
+          <span class="shot-no mono">Sc. 02</span>
+          <span class="shot-name">Music <em>video</em></span>
+          <span class="shot-desc mono">Int. — Performance, narrative</span>
+        </li>
+        <li class="shot" data-preview="2">
+          <span class="shot-no mono">Sc. 03</span>
+          <span class="shot-name">Short film</span>
+          <span class="shot-desc mono">Ext. — Fiction, documentary</span>
+        </li>
+        <li class="shot" data-preview="3">
+          <span class="shot-no mono">Sc. 04</span>
+          <span class="shot-name">Colour <em>&amp; grade</em></span>
+          <span class="shot-desc mono">Int. — Look dev, DI supervision</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ABOUT: theme inverts to bone, odometer stats, credits marquee -->
+    <section class="about" id="about" data-section>
+      <p class="section-label mono">[ About ]</p>
+      <div class="about-grid">
+        <p class="about-lede">Ten years behind the camera, the first four as a focus puller. I still pull my own focus — it is the most honest way to decide what matters in a <em>frame</em>.</p>
+        <ul class="stats">
+          <li><span class="odo" data-pattern="00" data-value="38"></span><span class="stat-label mono">Films shot</span></li>
+          <li><span class="odo" data-pattern="00" data-value="14"></span><span class="stat-label mono">Countries</span></li>
+          <li><span class="odo" data-pattern="00" data-value="09"></span><span class="stat-label mono">Festival selections</span></li>
+        </ul>
+      </div>
+      <div class="marquee" aria-label="Clients and festivals">
+        <div class="marquee-track">
+          <span>Northwind Outdoor</span><i>●</i><span>Mira Sol</span><i>●</i><span>Berlinale Shorts</span><i>●</i><span>Halden Records</span><i>●</i><span>Rotterdam IFFR</span><i>●</i><span>Oda Kitchen</span><i>●</i>
+          <span aria-hidden="true">Northwind Outdoor</span><i>●</i><span aria-hidden="true">Mira Sol</span><i>●</i><span aria-hidden="true">Berlinale Shorts</span><i>●</i><span aria-hidden="true">Halden Records</span><i>●</i><span aria-hidden="true">Rotterdam IFFR</span><i>●</i><span aria-hidden="true">Oda Kitchen</span><i>●</i>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUT TO: contact -->
+    <section class="cut" id="cut" data-section>
+      <p class="section-label mono">[ Cut to: ]</p>
+      <a class="cut-cta" href="mailto:studio@junoraske.film" data-cursor="Write">
+        <span class="roll roll--big"><span data-text="Your story.">Your <em>story.</em></span></span>
+      </a>
+      <p class="cut-mail mono"><a href="mailto:studio@junoraske.film" class="scramble-hover">studio@junoraske.film</a></p>
+      <div class="vf-btns">
+        <a class="vf-btn" href="#" data-cursor="Open"><span>Vimeo</span></a>
+        <a class="vf-btn" href="#" data-cursor="Open"><span>Instagram</span></a>
+        <a class="vf-btn" href="#" data-cursor="Open"><span>IMDb</span></a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="wordmark" aria-label="Fin">FIN.</p>
+      <div class="footer-meta mono">
+        <span>© 2026 Juno Raske</span>
+        <span>Built with GSAP, ScrollTrigger, SplitText, ScrambleText &amp; Lenis</span>
+        <a href="#open" class="to-top">Rewind ↺</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
