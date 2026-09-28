@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ossian Hale — Identity, Type & Motion</title>
+  <meta name="description" content="Ossian Hale is an independent designer building identities, typefaces and motion systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="is-loading">
+  <a class="skip" href="#" data-open="index">Skip to project index</a>
+
+  <header class="hud hud--top">
+    <p class="hud__label"><span class="chip"><span class="roll" id="label">Selection (08)</span></span></p>
+    <nav class="hud__nav" aria-label="Primary">
+      <button class="chip navlink" data-open="wall" aria-current="page">Wall</button>
+      <button class="chip navlink" data-open="index">Index</button>
+      <button class="chip navlink" data-open="info">Info</button>
+    </nav>
+  </header>
+
+  <h1 class="wordmark" aria-label="Ossian Hale">
+    <span class="wordmark__track" aria-hidden="true">
+      <span>Ossian Hale</span><span>Ossian Hale</span><span>Ossian Hale</span>
+    </span>
+  </h1>
+
+  <section class="meta" aria-label="About">
+    <p class="meta__k">Version</p>
+    <p class="meta__v">OH26.3</p>
+    <p class="meta__d">Identity, Type<br>&amp; Motion Design</p>
+    <p class="bio">
+      <span class="sr-only">Ossian Hale designs identities, typefaces and motion systems for cultural institutions, small publishers and restless startups.</span>
+      <span aria-hidden="true">
+        <span class="bio__lead">Ossian Hale designs identities, typefaces and motion systems.</span>
+        <span class="bio__tail">Lately for <span class="phrase-wrap"><span class="phrase">cultural institutions.</span></span></span>
+      </span>
+    </p>
+    <p class="meta__a"><a href="mailto:hello@ossianhale.xyz">hello@ossianhale.xyz</a><br>Available Nov 2026</p>
+  </section>
+
+  <main class="wall" id="wall" aria-label="Selected work"></main>
+
+  <footer class="hud hud--bottom">
+    <p class="hint"><span class="chip">Scroll, drag or use ↑ ↓</span></p>
+    <p class="copy"><span class="chip">© OH 2026</span></p>
+  </footer>
+
+  <!-- Index -->
+  <section class="panel" id="panel-index" aria-label="Project index" hidden>
+    <div class="panel__inner">
+      <p class="panel__kicker">Index — 08 projects</p>
+      <ol class="index" id="index-list"></ol>
+    </div>
+  </section>
+
+  <!-- Info -->
+  <section class="panel" id="panel-info" aria-label="Information" hidden>
+    <div class="panel__inner info">
+      <p class="info__statement">Independent designer working between identity, type and motion. Eight years inside Lisbon and Rotterdam studios; since 2023 taking commissions on my own, usually from people who make things slowly.</p>
+      <div class="info__cols">
+        <div><p class="info__k">Services</p><p>Visual identity<br>Custom typefaces<br>Motion systems<br>Editorial design<br>Art direction</p></div>
+        <div><p class="info__k">Selected clients</p><p>Kiln &amp; Co.<br>Salt Journal<br>Atlas Opera<br>Hollow Records<br>Mono Lake Festival</p></div>
+        <div><p class="info__k">Recognition</p><p>Type Directors Club, 2025<br>European Design Awards, 2024<br>Brand New, Noted, 2024</p></div>
+        <div><p class="info__k">Contact</p><p><a href="mailto:hello@ossianhale.xyz">hello@ossianhale.xyz</a><br><a href="#">Instagram</a><br><a href="#">Are.na</a><br><a href="#">Read.cv</a></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case -->
+  <div class="case" id="case" role="dialog" aria-modal="true" aria-labelledby="case-title" hidden>
+    <div class="case__bg"></div>
+    <div class="case__bar">
+      <p class="case__count" id="case-count">01 / 08</p>
+      <button class="case__close" id="case-close">Close (Esc)</button>
+    </div>
+    <div class="case__frame" id="case-frame"></div>
+    <div class="case__text">
+      <h2 class="case__title reveal" id="case-title"></h2>
+      <dl class="case__meta reveal" id="case-meta"></dl>
+      <p class="case__desc reveal" id="case-desc"></p>
+      <div class="case__nav reveal">
+        <button id="case-prev">← Previous</button>
+        <button id="case-next">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

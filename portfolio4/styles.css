@@ -1,0 +1,250 @@
+/* Ossian Hale — the specimen wall.
+   One family (Schibsted Grotesk) at 11px, 21px and one giant vertical wordmark.
+   Paper + ink with alpha steps; every other colour comes from the work. */
+
+:root {
+  --paper: #f3f3f0;
+  --ink: #151413;
+  --ink-64: rgb(21 20 19 / .64);
+  --ink-40: rgb(21 20 19 / .4);
+  --ink-16: rgb(21 20 19 / .16);
+  --ink-8: rgb(21 20 19 / .08);
+
+  --sides: 12px;
+  --gap: 24px;
+  --col: calc((100vw - 2 * var(--sides) - 11 * var(--gap)) / 12);
+
+  --ease-ui: cubic-bezier(.4, 0, .2, 1);      /* 0.15s UI, measured on the lead */
+  --ease-slide: cubic-bezier(.51, 0, .1, 1);  /* 0.65s slides, measured on the lead */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 500 11px/1.2 "Schibsted Grotesk", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+button {
+  font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer;
+}
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+.skip {
+  position: fixed; top: 8px; left: 8px; z-index: 100;
+  background: var(--ink); color: var(--paper); padding: 6px 10px;
+  transform: translateY(-200%);
+}
+.skip:focus { transform: none; }
+
+/* Labels that tiles pass beneath sit on a paper chip instead of a blend mode */
+.chip { background: var(--paper); padding: 2px 4px; margin: -2px -4px; display: inline-block; }
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed; left: 0; right: 0; z-index: 30;
+  display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gap);
+  padding: 12px var(--sides); pointer-events: none;
+}
+.hud > * { pointer-events: auto; }
+.hud--top { top: 0; }
+.hud--bottom { bottom: 0; }
+
+.hud__label { grid-column: 2 / span 4; overflow: hidden; }
+.hud__label .chip { overflow: hidden; }
+.roll { display: inline-block; }
+
+.hud__nav { grid-column: 10 / -1; justify-self: end; display: flex; gap: 12px; }
+.navlink { color: var(--ink-40); transition: color .15s var(--ease-ui); }
+.navlink:hover, .navlink[aria-current="page"] { color: var(--ink); }
+
+.hint { grid-column: 2 / span 4; color: var(--ink-64); }
+.copy { grid-column: 11 / -1; justify-self: end; }
+
+/* ---------- Wordmark (vertical, looping) ---------- */
+.wordmark {
+  position: fixed; top: 0; bottom: 0; left: 0; z-index: 5;
+  width: calc(var(--col) + var(--sides));
+  margin: 0; overflow: hidden;
+  font-weight: 900; text-transform: uppercase; letter-spacing: -.035em;
+  line-height: .8;
+  font-size: calc((var(--col) + var(--sides)) * 1.2);
+}
+.wordmark__track {
+  display: flex; flex-direction: column;
+  will-change: transform;
+}
+.wordmark__track > span {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  white-space: nowrap; padding-top: .25em; /* after rotation this is the gap between copies */
+}
+
+/* ---------- Meta row (fixed, the wall passes over it) ---------- */
+.meta {
+  position: fixed; left: 0; right: 0; top: 50%; z-index: 5;
+  transform: translateY(-50%);
+  display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gap);
+  padding: 0 var(--sides); align-items: start;
+}
+.meta__k { grid-column: 2; }
+.meta__v { grid-column: 3; }
+.meta__d { grid-column: 4 / span 2; }
+.bio { grid-column: 7 / span 3; max-width: 34ch; }
+.bio__tail { color: var(--ink-40); }
+.phrase-wrap { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .1em; margin-bottom: -.1em; }
+.phrase { display: inline-block; }
+.meta__a { grid-column: 11 / -1; justify-self: end; text-align: right; }
+
+/* ---------- The wall ---------- */
+.wall {
+  position: fixed; inset: 0; z-index: 10;
+  pointer-events: none;
+}
+.tile {
+  position: absolute; top: 0; left: 0;
+  display: block; pointer-events: auto;
+  will-change: transform;
+  cursor: pointer;
+}
+.tile__art { display: block; width: 100%; height: 100%; overflow: hidden; }
+.tile__art svg { display: block; width: 100%; height: 100%; transition: transform .65s var(--ease-slide); }
+.tile:hover .tile__art svg, .tile:focus-visible .tile__art svg { transform: scale(1.045); }
+.is-dragging .tile { cursor: grabbing; }
+svg text { font-family: "Schibsted Grotesk", system-ui, sans-serif; }
+
+.has-panel .hud--bottom { visibility: hidden; }
+
+/* ---------- Panels (Index / Info) ---------- */
+.panel {
+  position: fixed; inset: 0; z-index: 25;
+  background: var(--paper);
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: 72px var(--sides) 64px;
+}
+.panel__inner {
+  display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gap);
+}
+.panel__kicker { grid-column: 2 / -1; color: var(--ink-64); margin-bottom: 28px; }
+
+.index { grid-column: 2 / -1; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink-16); }
+.index__row {
+  display: grid; grid-template-columns: 3ch 5fr 3fr 3fr 6ch; gap: var(--gap); align-items: baseline;
+  width: 100%; text-align: left;
+  padding: 12px 8px; margin: 0 -8px; width: calc(100% + 16px);
+  border-bottom: 1px solid var(--ink-16);
+  font-size: 21px; line-height: 1.4; font-weight: 500; text-transform: uppercase;
+  transition: background-color .15s var(--ease-ui), color .15s var(--ease-ui);
+}
+.index__row small { font-size: 11px; text-transform: none; color: inherit; opacity: .64; }
+.index__row:hover, .index__row:focus-visible { background: var(--row-bg); color: var(--row-fg); }
+
+.info__statement {
+  grid-column: 2 / span 8;
+  font-size: 21px; line-height: 1.4; text-transform: uppercase; max-width: 44ch;
+  margin-bottom: 64px;
+}
+.info__cols { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); line-height: 1.5; }
+.info__k { color: var(--ink-40); margin-bottom: 8px; }
+
+/* ---------- Case (Flip target) ---------- */
+.case {
+  position: fixed; inset: 0; z-index: 40;
+  display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gap);
+  grid-template-rows: auto 1fr;
+  padding: 12px var(--sides) 24px;
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.case__bg { position: fixed; inset: 0; background: var(--paper); z-index: -1; }
+.case__bar { grid-column: 2 / -1; grid-row: 1; display: flex; justify-content: space-between; margin-bottom: 24px; }
+.case__count { color: var(--ink-64); }
+.case__frame {
+  grid-column: 2 / span 6; grid-row: 2; align-self: center;
+  aspect-ratio: var(--r, 1);
+  width: min(100%, calc((100svh - 96px) * var(--r, 1)));
+}
+.case__text {
+  grid-column: 9 / span 4; grid-row: 2; align-self: end;
+  display: flex; flex-direction: column; gap: 28px; padding-bottom: 8px;
+}
+.case__title { margin: 0; font-size: 21px; line-height: 1.2; font-weight: 600; text-transform: uppercase; }
+.case__meta { display: grid; grid-template-columns: 9ch 1fr; row-gap: 6px; margin: 0; }
+.case__meta dt { color: var(--ink-40); }
+.case__meta dd { margin: 0; }
+.case__desc { font-size: 21px; line-height: 1.35; font-weight: 400; max-width: 30ch; letter-spacing: -.01em; }
+.case__nav { display: flex; gap: 24px; }
+.case__nav button, .case__close { color: var(--ink-64); transition: color .15s var(--ease-ui); }
+.case__nav button:hover, .case__close:hover { color: var(--ink); }
+
+/* ---------- Static mode: phones and reduced motion — native scroll, no glide ---------- */
+.is-static { overflow: auto; overscroll-behavior: auto; }
+.is-static .wordmark {
+  position: static; width: auto; height: auto;
+  padding: 56px var(--sides) 0; font-size: 12.4vw; line-height: .82; letter-spacing: -.045em;
+}
+.is-static .wordmark__track > span { writing-mode: horizontal-tb; transform: none; padding: 0; white-space: normal; }
+.is-static .wordmark__track > span + span { display: none; }
+.is-static .meta {
+  position: static; transform: none; row-gap: 12px; padding: 24px var(--sides) 32px;
+}
+.is-static .wall {
+  position: static; pointer-events: auto;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px var(--gap);
+  padding: 0 var(--sides) 96px; align-items: start;
+}
+.is-static .tile { position: relative; aspect-ratio: var(--r); transform: none !important; }
+.is-static .tile:nth-child(even) { margin-top: 64px; }
+.is-static .hud--top { background: var(--paper); }
+.is-static .hud--bottom .hint { display: none; }
+
+@media (max-width: 767px) {
+  :root { --gap: 12px; }
+  .hud__label { grid-column: 1 / span 7; }
+  .hud__nav { grid-column: 8 / -1; }
+  .copy { grid-column: 7 / -1; }
+  .is-static .wordmark { font-size: 22vw; padding-top: 48px; }
+  .is-static .meta { grid-template-columns: repeat(4, 1fr); }
+  .is-static .meta__k { grid-column: 1; }
+  .is-static .meta__v { grid-column: 2; }
+  .is-static .meta__d { grid-column: 3 / -1; }
+  .is-static .bio { grid-column: 1 / -1; font-size: 21px; line-height: 1.3; max-width: none; margin-top: 12px; }
+  .is-static .meta__a { grid-column: 1 / -1; justify-self: start; text-align: left; }
+  .is-static .wall { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
+  .is-static .tile:nth-child(even) { margin-top: 48px; }
+
+  .panel { padding-top: 56px; }
+  .panel__kicker, .index, .info__statement, .info__cols { grid-column: 1 / -1; }
+  .index__row { grid-template-columns: 3ch 1fr 5ch; font-size: 17px; }
+  .index__row .hide-sm { display: none; }
+  .info__statement { font-size: 17px; }
+  .info__cols { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+
+  .case { display: block; padding-bottom: 48px; }
+  .case__bar { margin-bottom: 16px; }
+  .case__frame { width: 100%; }
+  .case__text { margin-top: 28px; gap: 22px; }
+  .case__desc { font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile__art svg { transition: none; }
+  .tile:hover .tile__art svg { transform: none; }
+}
+
+/* Intro: hold the page until JS has laid out the wall */
+.is-loading .wall, .is-loading .meta, .is-loading .hud { visibility: hidden; }
