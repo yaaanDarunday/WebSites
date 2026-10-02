@@ -98,3 +98,23 @@ html.cart-open .cart { transform: none; visibility: visible; transition: transfo
 .cart-foot-inline { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 8px; }
 .link { background: none; border: 0; padding: 0; font: 700 13px/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .link:hover { color: var(--cherry); }
+
+/* --- plain pages (order status, staff) --------------------------- */
+.page-plain { background: var(--paper); color: var(--ink); min-height: 100vh; }
+.plain-head { padding: 24px 40px; border-bottom: 1.5px solid var(--ink); }
+.plain-head .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+.plain-head .brand-mark { width: 36px; height: 24px; fill: none; stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; }
+.plain-head .brand-word { font: 900 28px/1 var(--f-display); text-transform: uppercase; }
+.plain-main { max-width: 720px; margin: 0 auto; padding: 56px 24px 96px; display: grid; gap: 22px; }
+.plain-kicker { font: 700 13px/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--terrain); }
+.plain-title { font: 900 clamp(48px, 9vw, 92px)/0.9 var(--f-display); text-transform: uppercase; }
+.plain-where, .plain-note { font-style: italic; color: var(--ink-64); }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.steps li { counter-increment: s; padding: 12px 10px; border-top: 4px solid var(--ink-16); font: 700 14px/1.1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-64); }
+.steps li::before { content: counter(s) " · "; }
+.steps li.is-done { border-color: var(--bean); color: var(--ink); }
+.steps li.is-current { border-color: var(--cherry); color: var(--cherry); }
+.receipt { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--ink); }
+.receipt li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--ink-16); font-variant-numeric: tabular-nums; }
+.receipt .receipt-total { font: 900 28px/1 var(--f-display); text-transform: uppercase; border-bottom: 0; }
+@media (max-width: 899px) { .plain-head { padding: 18px 16px; } .plain-main { padding: 36px 16px 72px; } }
