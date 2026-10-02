@@ -141,3 +141,10 @@ html.cart-open .cart { transform: none; visibility: visible; transition: transfo
 .btn-quiet:hover:not(:disabled) { background: var(--cherry); border-color: var(--cherry); color: var(--paper); }
 @media (max-width: 1099px) { .board { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 599px) { .board { grid-template-columns: 1fr; } .staff-head { flex-wrap: wrap; } .staff-meta { margin-left: 0; width: 100%; } }
+
+/* --- menu width on mid-size screens -------------------------------
+   The 390px left offset leaves ~600px for two columns below 1280px, which wraps names and
+   truncates notes once the add button takes a column. Use the empty space instead. */
+@media (min-width: 900px) and (max-width: 1279px) {
+  .menu-grid { margin-left: 0; column-gap: 40px; }
+}

@@ -38,3 +38,10 @@ test("production points at the real deployed API, not the placeholder", () => {
   assert.ok(!api.endsWith(".invalid"), `still the placeholder: ${api}`);
   assert.ok(!api.endsWith("/"), "no trailing slash");
 });
+
+test("every page carries a favicon, so browsers don't request a missing /favicon.ico", () => {
+  for (const page of ["index.html", "order.html", "staff.html"]) {
+    const html = fs.readFileSync(path.join(root, page), "utf8");
+    assert.ok(html.includes('<link rel="icon" href="data:image/svg+xml'), `${page} needs a favicon`);
+  }
+});
