@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yan Mark Darunday · Fullstack Developer</title>
+  <meta name="description" content="Yan Mark Darunday, fullstack developer in Zamboanga City, Philippines. Interfaces, APIs, databases and the servers they run on.">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Manrope:wght@400;500;600&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="is-loading">
+
+  <!-- Preloader: the page's own request trace. Spans draw, the odometer counts ms -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-head mono">
+      <span data-scramble>GET /yan-mark-darunday</span>
+      <span data-scramble>trace 7f3a·09c2·ZAM</span>
+    </div>
+    <ol class="loader-trace">
+      <li><span class="mono">dns</span><i class="track"><b style="--x:0;--w:.12"></b></i></li>
+      <li><span class="mono">tls</span><i class="track"><b style="--x:.1;--w:.14"></b></i></li>
+      <li><span class="mono">api</span><i class="track"><b style="--x:.22;--w:.46"></b></i></li>
+      <li><span class="mono">db.query</span><i class="track"><b style="--x:.34;--w:.22"></b></i></li>
+      <li><span class="mono">render</span><i class="track"><b style="--x:.64;--w:.36"></b></i></li>
+    </ol>
+    <div class="loader-foot">
+      <p class="loader-status mono" data-scramble>Resolving Zamboanga City, PH</p>
+      <p class="loader-count"><span class="odo" data-digits="3"></span><span class="loader-unit mono">ms</span></p>
+    </div>
+  </div>
+
+  <div class="grid-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
+
+  <!-- Edge HUD -->
+  <header class="hud">
+    <a class="brand" href="#index" data-cursor="Top" aria-label="Yan Mark Darunday, back to top">
+      <i class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></i>
+      <span class="brand-name">Yan Mark Darunday</span>
+    </a>
+
+    <nav class="nav" aria-label="Sections">
+      <a class="nav-link" href="#index"><span class="roll"><span data-text="Index">Index</span></span><i class="nav-bar"></i></a>
+      <a class="nav-link" href="#work"><span class="roll"><span data-text="Work">Work</span></span><sup class="nav-count">06</sup><i class="nav-bar"></i></a>
+      <a class="nav-link" href="#stack"><span class="roll"><span data-text="Stack">Stack</span></span><i class="nav-bar"></i></a>
+      <a class="nav-link" href="#about"><span class="roll"><span data-text="About">About</span></span><i class="nav-bar"></i></a>
+      <a class="nav-link" href="#contact"><span class="roll"><span data-text="Contact">Contact</span></span><i class="nav-bar"></i></a>
+    </nav>
+
+    <nav class="hud-social" aria-label="Social links">
+      <a href="https://github.com/yaaanDarunday" target="_blank" rel="noopener" aria-label="GitHub" data-cursor="GitHub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/yan.mark.darunday/" target="_blank" rel="noopener" aria-label="Facebook" data-cursor="Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21.5v-8h2.7l.4-3.2h-3.1V8.3c0-.9.3-1.5 1.6-1.5h1.7V3.9c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.3H7.5v3.2h2.8v8h3.2Z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/yanmark.darunday/" target="_blank" rel="noopener" aria-label="Instagram" data-cursor="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/yan-mark-darunday-b9b1983b0/" target="_blank" rel="noopener" aria-label="LinkedIn" data-cursor="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 9h3.7v11.5H4.5V9Zm1.85-5.5a2.15 2.15 0 1 1 0 4.3 2.15 2.15 0 0 1 0-4.3ZM10.5 9H14v1.6c.5-.95 1.75-1.9 3.6-1.9 3.85 0 4.4 2.5 4.4 5.8v6h-3.7v-5.3c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8v5.4h-3.7V9Z"/></svg>
+      </a>
+    </nav>
+    <p class="hud-geo mono"><span class="hud-dim">Zamboanga City</span> 6.9214°N 122.0790°E</p>
+    <p class="hud-status mono"><i class="pulse"></i> Open to work · Q4 2026</p>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="index" data-section>
+      <div class="hero-bg" aria-hidden="true">
+        <i class="hero-glow"></i>
+        <canvas class="hero-net"></canvas>
+        <canvas class="hero-canvas"></canvas>
+      </div>
+      <p class="eyebrow mono" data-scramble>[ Fullstack developer / Zamboanga City, PH ]</p>
+      <h1 class="hero-title">
+        <span class="line">Yan Mark</span>
+        <span class="line">Darunday<span class="dot">.</span></span>
+      </h1>
+
+      <div class="hero-foot">
+        <p class="hero-intro">I build every layer of the request, including the interface, the API, the data and the server it runs on. My main focus is motion, and I use animation to make an interface feel quick and easy to follow as it loads and responds.</p>
+        <a class="hero-cta mono" href="#work"><span class="roll"><span data-text="See the work ↓">See the work ↓</span></span></a>
+      </div>
+    </section>
+
+    <!-- STATEMENT: word-by-word scroll highlight -->
+    <section class="statement" data-section-skip>
+      <p class="statement-label mono">[ approach ]</p>
+      <p class="statement-text">I design the interface, the API and the database together, as <em>one request</em>.</p>
+    </section>
+
+    <!-- WORK: pinned focus index -->
+    <section class="work" id="work" data-section>
+      <div class="work-inner">
+        <div class="work-meta">
+          <p class="mono work-label">Selected work · this repo</p>
+          <dl class="work-spec">
+            <div><dt>Type</dt><dd data-field="type"></dd></div>
+            <div><dt>Motif</dt><dd data-field="motif"></dd></div>
+            <div><dt>Trace</dt><dd><ol class="work-trace" data-field-trace></ol></dd></div>
+          </dl>
+          <div class="work-counter">
+            <span class="odo" data-digits="2"></span><span class="work-total mono">/06</span>
+          </div>
+        </div>
+
+        <div class="work-stage"></div>
+
+        <ol class="work-list"></ol>
+      </div>
+    </section>
+
+    <!-- STACK: colour wipe rows with a travelling latency meter -->
+    <section class="stack" id="stack" data-section>
+      <p class="section-label mono">[ the stack, top to bottom ]</p>
+      <ul class="svc-list">
+        <li class="svc">
+          <div class="svc-row"><span class="svc-name">Interface</span><span class="svc-desc mono">01 / TypeScript, React, Next.js, GSAP</span></div>
+          <div class="svc-row svc-fill" aria-hidden="true"><span class="svc-name">Interface</span><span class="svc-desc mono">01 / TypeScript, React, Next.js, GSAP</span></div>
+          <span class="svc-meter mono" aria-hidden="true">0 ms</span>
+        </li>
+        <li class="svc">
+          <div class="svc-row"><span class="svc-name">API</span><span class="svc-desc mono">02 / Node.js, REST, GraphQL, auth</span></div>
+          <div class="svc-row svc-fill" aria-hidden="true"><span class="svc-name">API</span><span class="svc-desc mono">02 / Node.js, REST, GraphQL, auth</span></div>
+          <span class="svc-meter mono" aria-hidden="true">0 ms</span>
+        </li>
+        <li class="svc">
+          <div class="svc-row"><span class="svc-name">Data</span><span class="svc-desc mono">03 / PostgreSQL, Supabase, Redis</span></div>
+          <div class="svc-row svc-fill" aria-hidden="true"><span class="svc-name">Data</span><span class="svc-desc mono">03 / PostgreSQL, Supabase, Redis</span></div>
+          <span class="svc-meter mono" aria-hidden="true">0 ms</span>
+        </li>
+        <li class="svc">
+          <div class="svc-row"><span class="svc-name">Infra</span><span class="svc-desc mono">04 / Docker, CI/CD, Vercel, Linux</span></div>
+          <div class="svc-row svc-fill" aria-hidden="true"><span class="svc-name">Infra</span><span class="svc-desc mono">04 / Docker, CI/CD, Vercel, Linux</span></div>
+          <span class="svc-meter mono" aria-hidden="true">0 ms</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ABOUT: theme inversion + odometer stats -->
+    <section class="about" id="about" data-section>
+      <p class="section-label mono">[ about ]</p>
+      <div class="about-grid">
+        <p class="about-lede">I work from Zamboanga City, in western Mindanao. At UTC+8 I overlap easily with teams across Asia and the Pacific, and can cover the quiet hours for <em>yours</em> elsewhere.</p>
+        <p class="about-body">I enjoy dependable infrastructure and interfaces that are built with care. Most of my time goes into schemas, endpoints and deploy pipelines, and the rest into motion, since how an app feels while it loads is part of how fast it feels.</p>
+        <ul class="stats">
+          <li><span class="odo" data-digits="2" data-value="6"></span><span class="stat-label mono">Projects in this repo</span></li>
+          <li><span class="odo" data-digits="2" data-value="4"></span><span class="stat-label mono">Layers of the stack</span></li>
+          <li><span class="odo" data-digits="2" data-value="8"></span><span class="stat-label mono">Hours ahead of UTC</span></li>
+        </ul>
+      </div>
+      <div class="marquee" aria-label="Tools I use">
+        <div class="marquee-track">
+          <span>TypeScript</span><i></i><span>React</span><i></i><span>Next.js</span><i></i><span>Node.js</span><i></i><span>PostgreSQL</span><i></i><span>Docker</span><i></i><span>GSAP</span><i></i>
+          <span aria-hidden="true">TypeScript</span><i></i><span aria-hidden="true">React</span><i></i><span aria-hidden="true">Next.js</span><i></i><span aria-hidden="true">Node.js</span><i></i><span aria-hidden="true">PostgreSQL</span><i></i><span aria-hidden="true">Docker</span><i></i><span aria-hidden="true">GSAP</span><i></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact" data-section>
+      <p class="section-label mono">[ contact ]</p>
+      <a class="contact-cta" href="mailto:ydarunday@gmail.com" data-cursor="Write">
+        <span class="roll roll--big"><span data-text="Let's ship.">Let's ship<span class="dot">.</span></span></span>
+      </a>
+      <p class="contact-mail mono"><a href="mailto:ydarunday@gmail.com" class="scramble-hover">ydarunday@gmail.com</a></p>
+      <div class="corner-btns">
+        <a class="corner-btn" href="https://github.com/" target="_blank" rel="noopener" data-cursor="Open"><span>GitHub</span></a>
+        <a class="corner-btn" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-cursor="Open"><span>LinkedIn</span></a>
+        <a class="corner-btn" href="#work" data-cursor="Back"><span>Work</span></a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="wordmark" aria-label="Darunday">DARUNDAY</p>
+      <div class="footer-meta mono">
+        <span>© 2026 Yan Mark Darunday</span>
+        <span>Zamboanga City, Philippines · Built with GSAP &amp; Lenis</span>
+        <a href="#index" class="to-top">Back to top ↑</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
