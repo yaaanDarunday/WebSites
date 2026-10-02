@@ -3,6 +3,7 @@
   const A = window.Altura;
 
   let idempotencyKey = null; // one key per checkout attempt, kept until the order succeeds
+  A.cart.subscribe(() => { idempotencyKey = null; }); // a changed cart is a different order: never reuse the old key
 
   const field = (label, name, extra = {}) =>
     h("label", { class: "field" }, h("span", {}, label), h("input", { name, required: true, ...extra }));

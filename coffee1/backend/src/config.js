@@ -17,7 +17,7 @@ function loadConfig(env = process.env) {
     leadMinutes: Number(env.LEAD_MINUTES || 15),
     rateLimit: {
       orders: { windowMs: 60_000, max: 20 },
-      status: { windowMs: 60_000, max: 120 },
+      status: { windowMs: 60_000, max: 600 }, // a café's customers share one public IP and each open page polls every 5 s
       login: { windowMs: 15 * 60_000, max: 10 },
     },
   };

@@ -22,6 +22,29 @@ async function loadOrder(q, where, params) {
   return { ...rows[0], items };
 }
 
+// Fingerprint of what the order *is* (not how it was paid), so a retry of the same checkout matches
+// but a reused key with a different cart, slot or customer is refused.
+function requestHash(input) {
+  const qty = new Map();
+  for (const { sku, qty: n } of input.items) qty.set(sku, (qty.get(sku) || 0) + n);
+  const ship = input.fulfilment === "ship" && input.shipping
+    ? [input.shipping.line1, input.shipping.city, input.shipping.postcode, input.shipping.country] : null;
+  return crypto.createHash("sha256").update(JSON.stringify({
+    f: input.fulfilment,
+    s: input.pickupSlot ? new Date(input.pickupSlot).toISOString() : null,
+    c: [input.customer.name, input.customer.email.toLowerCase()],
+    a: ship,
+    i: [...qty].sort(([a], [b]) => (a < b ? -1 : 1)),
+  })).digest("hex");
+}
+
+function replayOrMismatch(existing, hash) {
+  if (existing.request_hash && existing.request_hash !== hash) {
+    throw new ApiError(422, "idempotency_mismatch", "This checkout was already submitted with different contents. Refresh and try again.");
+  }
+  return { order: existing, created: false };
+}
+
 const findByKey = (q, key) => loadOrder(q, "idempotency_key = $1", [key]);
 
 function cardExpired(exp, now) {
@@ -30,8 +53,9 @@ function cardExpired(exp, now) {
 }
 
 async function createOrder({ db, config, input, now = new Date() }) {
+  const hash = requestHash(input);
   const replay = await findByKey(db, input.idempotencyKey);
-  if (replay) return { order: replay, created: false };
+  if (replay) return replayOrMismatch(replay, hash);
 
   const qtyBySku = new Map();
   for (const { sku, qty } of input.items) qtyBySku.set(sku, (qtyBySku.get(sku) || 0) + qty);
@@ -87,10 +111,10 @@ async function createOrder({ db, config, input, now = new Date() }) {
       await charge({ amountCents: totalCents, card: input.card }); // throws → whole transaction rolls back
       const ship = input.shipping || {};
       const { rows: [row] } = await tx.query(
-        `insert into orders (code, idempotency_key, customer_name, customer_email, fulfilment, pickup_slot,
+        `insert into orders (code, idempotency_key, request_hash, customer_name, customer_email, fulfilment, pickup_slot,
                              ship_line1, ship_city, ship_postcode, ship_country, total_cents)
-         values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id`,
-        [newCode(), input.idempotencyKey, input.customer.name, input.customer.email, input.fulfilment, slotIso,
+         values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id`,
+        [newCode(), input.idempotencyKey, hash, input.customer.name, input.customer.email, input.fulfilment, slotIso,
           ship.line1 ?? null, ship.city ?? null, ship.postcode ?? null, ship.country ?? null, totalCents],
       );
       for (const l of lines) {
@@ -105,7 +129,7 @@ async function createOrder({ db, config, input, now = new Date() }) {
   } catch (err) {
     if (err.code === "23505") { // lost a race on the idempotency key: return the winner
       const winner = await findByKey(db, input.idempotencyKey);
-      if (winner) return { order: winner, created: false };
+      if (winner) return replayOrMismatch(winner, hash);
     }
     throw err;
   }
@@ -117,8 +141,16 @@ async function getOrderByCode(db, code) {
   return loadOrder(db, "code = $1", [normal]);
 }
 
-async function listOrders(db, { limit = 200 } = {}) {
-  const { rows } = await db.query("select * from orders order by created_at desc, id desc limit $1", [limit]);
+// Every active order is always returned; finished ones only for the last day, so the board stays small
+// and an old active order can never be pushed off it by newer traffic.
+async function listOrders(db, { statuses = null, limit = 1000 } = {}) {
+  const { rows } = await db.query(
+    `select * from orders
+     where (status not in ('completed', 'shipped', 'cancelled') or updated_at > now() - interval '24 hours')
+       and ($1::text[] is null or status = any($1::text[]))
+     order by created_at desc, id desc limit $2`,
+    [statuses, limit],
+  );
   if (!rows.length) return [];
   const { rows: items } = await db.query(
     "select order_id, sku, name, unit_price_cents, qty from order_items where order_id = any($1::int[]) order by id",

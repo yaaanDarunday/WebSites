@@ -134,3 +134,32 @@ test("login is rate limited", async () => {
     assert.deepEqual(statuses, [401, 401, 401, 429, 429]);
   } finally { await limited.close(); }
 });
+
+test("the board keeps every active order however many finished ones pile up, and drops stale finished ones", async () => {
+  const token = await login();
+  const active = await place();
+  await t.db.query("update orders set created_at = now() - interval '3 days' where code = $1", [active]);
+  await t.db.query(`insert into orders (code, idempotency_key, customer_name, customer_email, fulfilment, pickup_slot, status, total_cents)
+    select 'ALT-B' || g, 'bulk-' || g, 'B', 'b@example.com', 'pickup', now(), 'completed', 100 from generate_series(1, 250) g`);
+  await t.db.query(`insert into orders (code, idempotency_key, customer_name, customer_email, fulfilment, pickup_slot, status, total_cents, created_at, updated_at)
+    values ('ALT-OLD1', 'old-1', 'O', 'o@example.com', 'pickup', now(), 'completed', 100, now() - interval '3 days', now() - interval '3 days')`);
+  const res = await request(t.app).get("/api/staff/orders").set(auth(token));
+  const codes = res.body.orders.map((o) => o.code);
+  assert.ok(codes.includes(active), "an active order must never fall off the board");
+  assert.ok(!codes.includes("ALT-OLD1"), "finished orders older than a day are dropped");
+  assert.equal(res.body.orders.filter((o) => o.status === "completed").length, 250);
+});
+
+test("?status= filters the list and rejects unknown statuses", async () => {
+  const token = await login();
+  const a = await place();
+  await place();
+  const id = await idOf(a);
+  await request(t.app).patch(`/api/staff/orders/${id}/status`).set(auth(token)).send({ status: "preparing" });
+  const only = await request(t.app).get("/api/staff/orders?status=preparing").set(auth(token));
+  assert.deepEqual(only.body.orders.map((o) => o.code), [a]);
+  const both = await request(t.app).get("/api/staff/orders?status=new,preparing").set(auth(token));
+  assert.equal(both.body.orders.length, 2);
+  const bad = await request(t.app).get("/api/staff/orders?status=bogus").set(auth(token));
+  assert.equal(bad.status, 400);
+});

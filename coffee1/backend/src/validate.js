@@ -28,4 +28,16 @@ const orderSchema = z.object({
 const loginSchema = z.object({ passcode: z.string().min(1).max(200) });
 const statusSchema = z.object({ status: z.enum(["preparing", "ready", "completed", "shipped", "cancelled"]) });
 
-module.exports = { parse, orderSchema, loginSchema, statusSchema };
+const ALL_STATUSES = ["new", "preparing", "ready", "completed", "shipped", "cancelled"];
+// ?status=new,preparing  →  { statuses: ["new", "preparing"] } (omitted → null = no filter)
+const listQuerySchema = z.object({
+  status: z.string().max(100).optional(),
+}).transform((q, ctx) => {
+  if (!q.status) return { statuses: null };
+  const statuses = q.status.split(",").map((s) => s.trim());
+  const bad = statuses.find((s) => !ALL_STATUSES.includes(s));
+  if (bad) ctx.addIssue({ code: "custom", path: ["status"], message: `unknown status "${bad}"` });
+  return { statuses };
+});
+
+module.exports = { parse, orderSchema, loginSchema, statusSchema, listQuerySchema };

@@ -9,20 +9,31 @@
   const drawer = h("aside", { class: "cart", role: "dialog", "aria-modal": "true", "aria-label": "Your order", tabindex: "-1" }, panelCart, panelCheckout);
   document.body.append(backdrop, drawer);
 
-  // The trail stage listens for wheel/touch/keys on window; keep those away from the drawer.
+  // The trail stage listens for wheel/touch/keys on window; keep those away from the drawer and its backdrop.
   ["wheel", "touchstart", "touchmove", "touchend", "keydown"].forEach((type) =>
     drawer.addEventListener(type, (e) => { if (!(type === "keydown" && e.key === "Escape")) e.stopPropagation(); }, { passive: true }));
+  ["wheel", "touchstart", "touchmove", "touchend"].forEach((type) =>
+    backdrop.addEventListener(type, (e) => e.stopPropagation(), { passive: true }));
 
   let lastFocus = null;
+  let inerted = [];
+  // aria-modal alone doesn't stop Tab: make everything behind the drawer inert while it is open.
+  const setBackgroundInert = (on) => {
+    if (on) inerted = [...document.body.children].filter((el) => el !== drawer && el !== backdrop && el.tagName !== "SCRIPT");
+    inerted.forEach((el) => { el.inert = on; });
+    if (!on) inerted = [];
+  };
 
   A.openCart = function openCart() {
     lastFocus = document.activeElement;
     A.showPanel("cart");
+    setBackgroundInert(true);
     root.classList.add("cart-open");
     drawer.focus({ preventScroll: true });
   };
   A.closeCart = function closeCart() {
     root.classList.remove("cart-open");
+    setBackgroundInert(false);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   };
   A.showPanel = function showPanel(name) {

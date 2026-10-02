@@ -52,12 +52,33 @@ test("duplicate lines for one sku are merged", async () => {
   assert.equal(over.status, 400);
 });
 
-test("replaying the same idempotency key returns the original order and charges once", async () => {
+test("replaying the identical request returns the original order and charges once", async () => {
   const first = await post(body());
-  const again = await post(body({ items: [{ sku: "espresso", qty: 9 }] })); // different cart, same key
+  const again = await post(body());
   assert.equal(again.status, 200);
   assert.equal(again.body.order.code, first.body.order.code);
-  assert.equal(again.body.order.totalCents, first.body.order.totalCents);
+  assert.equal(await count(), 1);
+});
+
+test("a replay that differs only by item order or card details still matches", async () => {
+  const first = await post(body());
+  const again = await post(body({
+    items: [{ sku: "cardamom-bun", qty: 1 }, { sku: "flat-white", qty: 2 }],
+    card: { number: "4242-4242-4242-4242", exp: "11/31", cvc: "999" },
+  }));
+  assert.equal(again.status, 200);
+  assert.equal(again.body.order.code, first.body.order.code);
+});
+
+test("reusing a key for a different order is refused instead of answered with the old one", async () => {
+  await post(body());
+  const cart = await post(body({ items: [{ sku: "espresso", qty: 9 }] }));
+  assert.equal(cart.status, 422);
+  assert.equal(cart.body.error.code, "idempotency_mismatch");
+  const slot = await post(body({ pickupSlot: "2026-10-05T12:15:00.000Z" }));
+  assert.equal(slot.body.error.code, "idempotency_mismatch");
+  const who = await post(body({ customer: { name: "Someone Else", email: "ana@example.com" } }));
+  assert.equal(who.body.error.code, "idempotency_mismatch");
   assert.equal(await count(), 1);
 });
 

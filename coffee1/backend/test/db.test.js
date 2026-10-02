@@ -1,6 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const { makeTestDb } = require("./support/app");
+const { createDb } = require("../src/db");
 const { migrate } = require("../src/db/migrate");
 const { seedProducts } = require("../src/db/seed");
 
@@ -45,4 +46,12 @@ test("orders require a pickup slot or a shipping address", async () => {
       "insert into orders (code, idempotency_key, customer_name, customer_email, fulfilment, total_cents) values ('X','k','n','e','pickup',1)",
     ),
   );
+});
+
+test("the pg driver survives idle-connection errors and bounds connect time", async () => {
+  const pgdb = await createDb({ databaseUrl: "postgres://u:p@127.0.0.1:1/x", databaseSsl: false });
+  try {
+    assert.ok(pgdb.pool.listenerCount("error") > 0, "pool needs an error listener or a dropped idle connection crashes the process");
+    assert.equal(pgdb.pool.options.connectionTimeoutMillis, 10000);
+  } finally { await pgdb.close(); }
 });

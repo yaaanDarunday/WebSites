@@ -12,6 +12,7 @@ create table if not exists orders (
   id integer generated always as identity primary key,
   code text not null unique,
   idempotency_key text not null unique,
+  request_hash text,
   customer_name text not null,
   customer_email text not null,
   fulfilment text not null check (fulfilment in ('pickup', 'ship')),
@@ -30,6 +31,8 @@ create table if not exists orders (
     or (fulfilment = 'ship' and ship_line1 is not null)
   )
 );
+-- databases created before request_hash existed
+alter table orders add column if not exists request_hash text;
 create index if not exists orders_status_idx on orders (status, created_at desc);
 create index if not exists orders_slot_idx on orders (pickup_slot) where pickup_slot is not null;
 

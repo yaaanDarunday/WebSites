@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { ApiError } = require("../errors");
-const { parse, loginSchema, statusSchema } = require("../validate");
+const { parse, loginSchema, statusSchema, listQuerySchema } = require("../validate");
 const { passcodeMatches, signStaffToken, requireStaff } = require("../auth");
 const { listOrders, updateStatus, staffView } = require("../orders");
 
@@ -18,7 +18,8 @@ function staffRoutes({ db, config, limits }) {
   r.use(requireStaff(config));
 
   r.get("/orders", async (req, res) => {
-    res.json({ orders: (await listOrders(db)).map(staffView) });
+    const { statuses } = parse(listQuerySchema, req.query);
+    res.json({ orders: (await listOrders(db, { statuses })).map(staffView) });
   });
 
   r.patch("/orders/:id/status", async (req, res) => {

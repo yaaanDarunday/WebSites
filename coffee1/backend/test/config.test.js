@@ -28,3 +28,7 @@ test("production reads origins, passcode and numbers from env", () => {
   assert.equal(c.slotCapacity, 3);
   assert.equal(c.port, 8080);
 });
+
+test("status lookups tolerate a café full of customers behind one IP", () => {
+  assert.ok(loadConfig({}).rateLimit.status.max >= 600);
+});

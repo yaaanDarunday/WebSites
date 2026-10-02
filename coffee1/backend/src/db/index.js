@@ -5,23 +5,28 @@ async function createDb(config) {
       connectionString: config.databaseUrl,
       ssl: config.databaseSsl === false ? false : { rejectUnauthorized: false },
       max: 5,
+      connectionTimeoutMillis: 10_000,
     });
+    // Without this listener a dropped idle connection (pooler restart, network blip) crashes the process.
+    pool.on("error", (err) => console.error("pg idle client error:", err.message));
     return {
       driver: "pg",
+      pool,
       query: (text, params) => pool.query(text, params),
       exec: (sql) => pool.query(sql),
       async tx(fn) {
         const client = await pool.connect();
+        let broken = false;
         try {
           await client.query("begin");
           const result = await fn({ query: (t, p) => client.query(t, p) });
           await client.query("commit");
           return result;
         } catch (err) {
-          await client.query("rollback").catch(() => {});
+          await client.query("rollback").catch(() => { broken = true; });
           throw err;
         } finally {
-          client.release();
+          client.release(broken); // a connection that cannot even roll back is destroyed, not returned to the pool
         }
       },
       close: () => pool.end(),

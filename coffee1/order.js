@@ -15,7 +15,7 @@
   let timer = null;
 
   const stop = () => { clearTimeout(timer); timer = null; };
-  const schedule = () => { stop(); timer = setTimeout(load, 5000); };
+  const schedule = (ms = 5000) => { stop(); timer = setTimeout(load, ms); };
 
   function render(order, tz) {
     const cancelled = order.status === "cancelled";
@@ -58,6 +58,7 @@
       let note = document.querySelector(".plain-retry");
       if (!note) { note = h("p", { class: "plain-note plain-retry" }); main.append(note); }
       note.textContent = "Can't refresh right now. Trying again…";
+      return schedule(err.status === 429 ? 30000 : 5000); // back off instead of hammering a rate limiter
     }
     schedule();
   }
