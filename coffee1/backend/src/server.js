@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { loadConfig } = require("./config");
-const { createDb } = require("./db");
+const { createDb, warmUp } = require("./db");
 const { migrate } = require("./db/migrate");
 const { seedProducts } = require("./db/seed");
 const { createApp } = require("./app");
@@ -16,6 +16,7 @@ async function main() {
     await migrate(db);
   }
   const app = createApp({ db, config });
+  if (db.driver === "pg") warmUp(db); // fire and forget: health stays up even if the database is slow
   const server = app.listen(config.port, () => console.log(`Altura API listening on :${config.port}`));
   const stop = () => server.close(() => db.close().then(() => process.exit(0)));
   process.on("SIGTERM", stop);

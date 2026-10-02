@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const { makeTestDb } = require("./support/app");
-const { createDb } = require("../src/db");
+const { createDb, warmUp } = require("../src/db");
 const { migrate } = require("../src/db/migrate");
 const { seedProducts } = require("../src/db/seed");
 
@@ -52,6 +52,14 @@ test("the pg driver survives idle-connection errors and bounds connect time", as
   const pgdb = await createDb({ databaseUrl: "postgres://u:p@127.0.0.1:1/x", databaseSsl: false });
   try {
     assert.ok(pgdb.pool.listenerCount("error") > 0, "pool needs an error listener or a dropped idle connection crashes the process");
-    assert.equal(pgdb.pool.options.connectionTimeoutMillis, 10000);
+    assert.equal(pgdb.pool.options.connectionTimeoutMillis, 30000, "a cold handshake to the pooler can take several seconds");
+    assert.ok(pgdb.pool.options.idleTimeoutMillis >= 300000, "keep warm connections around instead of re-handshaking");
   } finally { await pgdb.close(); }
+});
+
+test("warm-up opens a connection, and reports a failure without throwing", async () => {
+  assert.equal(await warmUp(db), true);
+  const quiet = console.error; console.error = () => {};
+  try { assert.equal(await warmUp({ query: async () => { throw new Error("nope"); } }), false); }
+  finally { console.error = quiet; }
 });

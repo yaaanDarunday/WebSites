@@ -20,7 +20,7 @@ test("production refuses to start without its secrets", () => {
 
 test("production reads origins, passcode and numbers from env", () => {
   const c = loadConfig({
-    NODE_ENV: "production", DATABASE_URL: "postgres://x", STAFF_PASSCODE: "p", JWT_SECRET: "s",
+    NODE_ENV: "production", DATABASE_URL: "postgres://x", STAFF_PASSCODE: "p", JWT_SECRET: "j".repeat(32),
     FRONTEND_ORIGIN: "https://a.example, https://b.example", SLOT_CAPACITY: "3", PORT: "8080",
   });
   assert.equal(c.prod, true);
@@ -31,4 +31,25 @@ test("production reads origins, passcode and numbers from env", () => {
 
 test("status lookups tolerate a café full of customers behind one IP", () => {
   assert.ok(loadConfig({}).rateLimit.status.max >= 600);
+});
+
+test("an unknown CAFE_TZ is refused at startup, not on the first customer's request", () => {
+  assert.throws(() => loadConfig({ CAFE_TZ: "Zamboanga City, Zamboanga del Sur" }), /CAFE_TZ/);
+  assert.equal(loadConfig({ CAFE_TZ: "Asia/Manila" }).cafeTz, "Asia/Manila");
+});
+
+test("FRONTEND_ORIGIN is normalised (trailing slash, spaces) and validated", () => {
+  assert.deepEqual(loadConfig({ FRONTEND_ORIGIN: " https://a.example/ , https://b.example" }).frontendOrigins, ["https://a.example", "https://b.example"]);
+  assert.throws(() => loadConfig({ FRONTEND_ORIGIN: "a.example" }), /FRONTEND_ORIGIN/);
+  assert.throws(() => loadConfig({ FRONTEND_ORIGIN: "https://a.example/some/path" }), /FRONTEND_ORIGIN/);
+});
+
+test("production rejects a weak JWT_SECRET", () => {
+  const base = { NODE_ENV: "production", DATABASE_URL: "postgres://x", STAFF_PASSCODE: "p" };
+  assert.throws(() => loadConfig({ ...base, JWT_SECRET: "short" }), /JWT_SECRET/);
+  assert.doesNotThrow(() => loadConfig({ ...base, JWT_SECRET: "j".repeat(32) }));
+});
+
+test("the backend pins the Node major it was tested on", () => {
+  assert.match(require("../package.json").engines.node, /^24./);
 });

@@ -55,3 +55,26 @@ test("GET /api/products lists the menu in order with integer cents", async () =>
   assert.ok(products.every((p) => Number.isInteger(p.priceCents)));
   assert.equal(products.at(-1).sku, "bean-lot-02");
 });
+
+test("the deep health check passes when the database answers", async () => {
+  const res = await request(t.app).get("/api/health/db");
+  assert.equal(res.status, 200);
+  assert.deepEqual(res.body, { ok: true });
+});
+
+test("liveness never touches the database; the deep check fails with a logged reason", async () => {
+  const { createApp } = require("../src/app");
+  const { loadConfig } = require("../src/config");
+  const logged = [];
+  const quiet = console.error; console.error = (...a) => logged.push(a.join(" "));
+  const app = createApp({ db: { query: async () => { throw new Error("db unreachable"); } }, config: loadConfig({ NODE_ENV: "test" }) });
+  try {
+    const live = await request(app).get("/api/health");
+    assert.equal(live.status, 200);
+    assert.deepEqual(live.body, { ok: true });
+    const deep = await request(app).get("/api/health/db");
+    assert.equal(deep.status, 503);
+    assert.deepEqual(deep.body, { ok: false });
+    assert.ok(logged.some((l) => l.includes("db unreachable")), "the real error must reach the logs");
+  } finally { console.error = quiet; }
+});
