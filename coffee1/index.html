@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="shop.css">
 </head>
 <body>
 
@@ -113,35 +114,35 @@
         <div class="menu-group" data-pop>
           <h3>Espresso bar</h3>
           <ul>
-            <li><span class="m-name">Espresso</span><span class="m-note">Altura house, chocolate &amp; plum</span><span class="m-price">3.2</span></li>
-            <li><span class="m-name">Cortado</span><span class="m-note">Equal parts, no foam art debate</span><span class="m-price">3.8</span></li>
-            <li><span class="m-name">Flat white</span><span class="m-note">Double ristretto, whole or oat</span><span class="m-price">4.2</span></li>
-            <li><span class="m-name">Ridge latte</span><span class="m-note">Brown-butter syrup, sea salt</span><span class="m-price">4.9</span></li>
+            <li data-sku="espresso"><span class="m-name">Espresso</span><span class="m-note">Altura house, chocolate &amp; plum</span><span class="m-price">3.2</span></li>
+            <li data-sku="cortado"><span class="m-name">Cortado</span><span class="m-note">Equal parts, no foam art debate</span><span class="m-price">3.8</span></li>
+            <li data-sku="flat-white"><span class="m-name">Flat white</span><span class="m-note">Double ristretto, whole or oat</span><span class="m-price">4.2</span></li>
+            <li data-sku="ridge-latte"><span class="m-name">Ridge latte</span><span class="m-note">Brown-butter syrup, sea salt</span><span class="m-price">4.9</span></li>
           </ul>
         </div>
         <div class="menu-group" data-pop>
           <h3>Filter &amp; slow</h3>
           <ul>
-            <li><span class="m-name">Batch brew</span><span class="m-note">Rotating single origin</span><span class="m-price">3.4</span></li>
-            <li><span class="m-name">Pour-over</span><span class="m-note">V60, four minutes, worth it</span><span class="m-price">5.5</span></li>
-            <li><span class="m-name">Cold brew</span><span class="m-note">Eighteen hours in the river-cold fridge</span><span class="m-price">4.6</span></li>
-            <li><span class="m-name">Cascara tonic</span><span class="m-note">Dried cherry tea, tonic, orange</span><span class="m-price">5.0</span></li>
+            <li data-sku="batch-brew"><span class="m-name">Batch brew</span><span class="m-note">Rotating single origin</span><span class="m-price">3.4</span></li>
+            <li data-sku="pour-over"><span class="m-name">Pour-over</span><span class="m-note">V60, four minutes, worth it</span><span class="m-price">5.5</span></li>
+            <li data-sku="cold-brew"><span class="m-name">Cold brew</span><span class="m-note">Eighteen hours in the river-cold fridge</span><span class="m-price">4.6</span></li>
+            <li data-sku="cascara-tonic"><span class="m-name">Cascara tonic</span><span class="m-note">Dried cherry tea, tonic, orange</span><span class="m-price">5.0</span></li>
           </ul>
         </div>
         <div class="menu-group" data-pop>
           <h3>Not coffee</h3>
           <ul>
-            <li><span class="m-name">Hot chocolate</span><span class="m-note">70% single-estate, whole milk</span><span class="m-price">4.4</span></li>
-            <li><span class="m-name">Chai</span><span class="m-note">Brewed from whole spice, not syrup</span><span class="m-price">4.5</span></li>
-            <li><span class="m-name">Fresh mint</span><span class="m-note">A handful of it, hot water</span><span class="m-price">3.0</span></li>
+            <li data-sku="hot-chocolate"><span class="m-name">Hot chocolate</span><span class="m-note">70% single-estate, whole milk</span><span class="m-price">4.4</span></li>
+            <li data-sku="chai"><span class="m-name">Chai</span><span class="m-note">Brewed from whole spice, not syrup</span><span class="m-price">4.5</span></li>
+            <li data-sku="fresh-mint"><span class="m-name">Fresh mint</span><span class="m-note">A handful of it, hot water</span><span class="m-price">3.0</span></li>
           </ul>
         </div>
         <div class="menu-group" data-pop>
           <h3>From the oven</h3>
           <ul>
-            <li><span class="m-name">Cardamom bun</span><span class="m-note">Until they're gone, usually 10am</span><span class="m-price">3.9</span></li>
-            <li><span class="m-name">Olive oil cake</span><span class="m-note">Orange, rosemary, a lot of oil</span><span class="m-price">4.2</span></li>
-            <li><span class="m-name">Trail toast</span><span class="m-note">Sourdough, ricotta, honey, walnut</span><span class="m-price">7.5</span></li>
+            <li data-sku="cardamom-bun"><span class="m-name">Cardamom bun</span><span class="m-note">Until they're gone, usually 10am</span><span class="m-price">3.9</span></li>
+            <li data-sku="olive-oil-cake"><span class="m-name">Olive oil cake</span><span class="m-note">Orange, rosemary, a lot of oil</span><span class="m-price">4.2</span></li>
+            <li data-sku="trail-toast"><span class="m-name">Trail toast</span><span class="m-note">Sourdough, ricotta, honey, walnut</span><span class="m-price">7.5</span></li>
           </ul>
         </div>
       </div>
@@ -209,7 +210,7 @@
     <a class="tab" href="#menu" data-tab="menu"><span class="tab-label">Menu</span></a>
     <a class="tab" href="#beans" data-tab="beans"><span class="tab-label">Beans</span></a>
     <a class="tab" href="#visit" data-tab="visit"><span class="tab-label">Visit</span></a>
-    <a class="tab tab-order" href="mailto:hello@altura.coffee?subject=Order%20ahead"><span class="tab-label">Order ahead</span><span class="tab-arrow" aria-hidden="true">↗</span></a>
+    <a class="tab tab-order" href="mailto:hello@altura.coffee?subject=Order%20ahead"><span class="tab-label">Order ahead</span><span class="tab-count" aria-hidden="true"></span><span class="tab-arrow" aria-hidden="true">↗</span></a>
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/d3-array@3/dist/d3-array.min.js"></script>
@@ -220,6 +221,11 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+  <script src="config.js"></script>
+  <script src="util.js"></script>
+  <script src="api.js"></script>
+  <script src="cart-store.js"></script>
   <script src="main.js"></script>
+  <script src="shop.js"></script>
 </body>
 </html>

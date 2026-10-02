@@ -49,11 +49,11 @@ const STOPS = [
 const RIVER = [[1700, -120], [1560, 120], [1330, 290], [1150, 400], [1010, 560], [1060, 720], [980, 880], [1020, 1120]];
 
 const BEANS = [
-  { lot: "Lot 07", name: "Finca Altura<br>Pink Bourbon", notes: "Pink grapefruit, honey, black tea",
+  { sku: "bean-lot-07", lot: "Lot 07", name: "Finca Altura<br>Pink Bourbon", notes: "Pink grapefruit, honey, black tea",
     facts: [["Altitude", "1,850 m"], ["Process", "Washed"], ["Harvest", "May 2026"]], roast: 2, price: 15, seed: 11 },
-  { lot: "Lot 11", name: "La Loma<br>Caturra", notes: "Red apple, panela, cocoa nib",
+  { sku: "bean-lot-11", lot: "Lot 11", name: "La Loma<br>Caturra", notes: "Red apple, panela, cocoa nib",
     facts: [["Altitude", "1,700 m"], ["Process", "Honey"], ["Harvest", "April 2026"]], roast: 3, price: 14, seed: 29 },
-  { lot: "Lot 02", name: "Altura<br>House blend", notes: "Dark chocolate, plum, toasted hazelnut",
+  { sku: "bean-lot-02", lot: "Lot 02", name: "Altura<br>House blend", notes: "Dark chocolate, plum, toasted hazelnut",
     facts: [["Altitude", "1,100–1,850 m"], ["Process", "Washed & natural"], ["Use", "Espresso & milk"]], roast: 4, price: 12, seed: 3 },
 ];
 
@@ -481,6 +481,7 @@ const beansGrid = $(".beans-grid");
 BEANS.forEach((b) => {
   const card = document.createElement("article");
   card.className = "bean";
+  card.dataset.sku = b.sku;
   card.innerHTML = `
     <div class="bean-art"></div>
     <div>
@@ -495,13 +496,9 @@ BEANS.forEach((b) => {
     </div>
     <div class="bean-foot">
       <p class="bean-price">${b.price}<small>/ 250 g</small></p>
-      <a href="#visit">Pick up in store</a>
+      <button class="add add-bean" type="button">Add to order</button>
     </div>`;
   card.querySelector(".bean-art").appendChild(beanArt(b.seed));
-  card.querySelector(".bean-foot a").addEventListener("click", (e) => {
-    e.preventDefault();
-    window.scrollTo({ top: $("#visit").getBoundingClientRect().top + scrollY, behavior: reduceMotion ? "auto" : "smooth" });
-  });
   beansGrid.appendChild(card);
 });
 

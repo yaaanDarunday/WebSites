@@ -1,0 +1,31 @@
+/* Altura ordering UI. Uses the tokens from styles.css. */
+
+/* --- add buttons ------------------------------------------------ */
+.add {
+  font: 800 18px/1 var(--f-display); width: 30px; height: 30px; align-self: center;
+  border: 1.5px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer;
+  transition: background-color 0.3s var(--ui), color 0.3s var(--ui), border-color 0.3s var(--ui);
+}
+.add:hover:not(:disabled) { background: var(--cherry); border-color: var(--cherry); color: var(--paper); }
+.add:disabled { opacity: 0.35; cursor: not-allowed; }
+.add:focus-visible { outline: 2px solid var(--cherry); outline-offset: 2px; }
+.add.is-added { background: var(--bean); border-color: var(--bean); color: var(--ink); }
+.menu-group li[data-sku] { grid-template-columns: auto 1fr auto auto; }
+.add-bean {
+  width: auto; height: auto; padding: 10px 12px; border: 0; background: var(--trail); color: var(--deep);
+  font: 700 13px/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase;
+}
+.add-bean:hover:not(:disabled) { background: #fff; color: var(--deep); }
+.add-bean.is-added { background: var(--bean); color: var(--deep); }
+@media (max-width: 899px) {
+  .menu-group li[data-sku] { grid-template-columns: 1fr auto auto; }
+}
+
+/* --- tab bar badge ---------------------------------------------- */
+.tab-order { position: relative; }
+.tab-count {
+  position: absolute; top: 6px; right: 6px; z-index: 2; pointer-events: none;
+  min-width: 20px; padding: 3px 6px; border-radius: 999px; text-align: center;
+  background: var(--paper); color: var(--cherry); font: 800 12px/1 var(--f-display);
+}
+.tab-count:empty { display: none; }
