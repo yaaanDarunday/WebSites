@@ -32,3 +32,9 @@ test("the static host publishes only the site, not the backend or docs", () => {
     assert.ok(ignored.includes(entry), `.assetsignore must list ${entry}`);
   }
 });
+
+test("production points at the real deployed API, not the placeholder", () => {
+  const api = apiFor("altura-coffee.coffee1.workers.dev");
+  assert.ok(!api.endsWith(".invalid"), `still the placeholder: ${api}`);
+  assert.ok(!api.endsWith("/"), "no trailing slash");
+});
