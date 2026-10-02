@@ -1,7 +1,10 @@
 const { Router } = require("express");
 const { listSlotTimes } = require("../hours");
+const { ApiError } = require("../errors");
+const { parse, orderSchema } = require("../validate");
+const { createOrder, getOrderByCode, customerView } = require("../orders");
 
-function publicRoutes({ db, config, now }) {
+function publicRoutes({ db, config, now, limits }) {
   const r = Router();
 
   r.get("/products", async (req, res) => {
@@ -30,6 +33,18 @@ function publicRoutes({ db, config, now }) {
       .map((at) => ({ at, remaining: config.slotCapacity - (used.get(at) || 0) }))
       .filter((s) => s.remaining > 0);
     res.json({ tz: config.cafeTz, slots });
+  });
+
+  r.post("/orders", limits.orders, async (req, res) => {
+    const input = parse(orderSchema, req.body);
+    const { order, created } = await createOrder({ db, config, input, now: now() });
+    res.status(created ? 201 : 200).json({ order: customerView(order), tz: config.cafeTz });
+  });
+
+  r.get("/orders/:code", limits.status, async (req, res) => {
+    const order = await getOrderByCode(db, req.params.code);
+    if (!order) throw new ApiError(404, "not_found", "We can't find that order. Check the code and try again.");
+    res.json({ order: customerView(order), tz: config.cafeTz });
   });
 
   return r;

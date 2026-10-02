@@ -1,3 +1,4 @@
+const { z } = require("zod");
 const { ApiError } = require("./errors");
 
 function parse(schema, data) {
@@ -8,4 +9,23 @@ function parse(schema, data) {
   throw new ApiError(400, "invalid_request", `Please check: ${summary}`, details);
 }
 
-module.exports = { parse };
+const trimmed = (max) => z.string().trim().min(1).max(max);
+
+const orderSchema = z.object({
+  idempotencyKey: z.string().min(8).max(64).regex(/^[A-Za-z0-9_-]+$/),
+  customer: z.object({ name: trimmed(80), email: z.string().trim().max(120).email() }),
+  fulfilment: z.enum(["pickup", "ship"]),
+  pickupSlot: z.string().datetime().optional(),
+  shipping: z.object({ line1: trimmed(120), city: trimmed(80), postcode: trimmed(20), country: trimmed(60) }).optional(),
+  items: z.array(z.object({ sku: z.string().min(1).max(40), qty: z.number().int().min(1).max(20) })).min(1).max(30),
+  card: z.object({
+    number: z.string().regex(/^[\d\s-]{12,23}$/),
+    exp: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/),
+    cvc: z.string().regex(/^\d{3,4}$/),
+  }),
+});
+
+const loginSchema = z.object({ passcode: z.string().min(1).max(200) });
+const statusSchema = z.object({ status: z.enum(["preparing", "ready", "completed", "shipped", "cancelled"]) });
+
+module.exports = { parse, orderSchema, loginSchema, statusSchema };

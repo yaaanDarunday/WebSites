@@ -14,7 +14,12 @@ async function makeTestDb() {
 
 async function makeTestApp({ env = {}, config = {} } = {}) {
   const { createApp } = require("../../src/app");
-  const cfg = { ...loadConfig({ NODE_ENV: "test", CAFE_TZ: "UTC", ...env }), ...config };
+  const roomy = { windowMs: 60_000, max: 10_000 }; // production limits would trip a busy test file
+  const cfg = {
+    ...loadConfig({ NODE_ENV: "test", CAFE_TZ: "UTC", ...env }),
+    rateLimit: { orders: roomy, status: roomy, login: roomy },
+    ...config,
+  };
   const db = await makeTestDb();
   const app = createApp({ db, config: cfg, now: () => NOW });
   return {
