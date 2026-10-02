@@ -142,15 +142,12 @@ img { display: block; max-width: 100%; }
 ------------------------------------------------------------------- */
 .hud { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
 .hud > * { pointer-events: auto; position: absolute; margin: 0; }
-.brand { top: 22px; left: var(--gutter); display: flex; align-items: center; gap: 10px; }
-.brand-mark { display: grid; gap: 3px; width: 22px; }
-.brand-mark b { display: block; height: 3px; background: var(--fg); border-radius: 1px; transition: transform .5s var(--ease-osmo), background-color .3s; transform-origin: 0 50%; }
-.brand-mark b:nth-child(1) { width: 60%; }
-.brand-mark b:nth-child(2) { width: 80%; margin-left: 20%; }
-.brand-mark b:nth-child(3) { width: 45%; margin-left: 40%; }
-.brand:hover .brand-mark b { background: var(--signal); }
-.brand:hover .brand-mark b:nth-child(2) { transform: scaleX(.6); }
-.brand-name { font: 600 15px/1 var(--f-display); letter-spacing: -0.01em; }
+.brand { top: 20px; left: var(--gutter); display: flex; align-items: center; }
+.brand-logo {
+  font: 400 24px/1 "Major Mono Display", var(--f-mono); letter-spacing: -0.2em;
+  transition: color .3s var(--ease-osmo);
+}
+.brand:hover .brand-logo, .brand:focus-visible .brand-logo { color: var(--signal-ink); }
 
 .nav {
   top: 16px; left: 0; right: 0; width: max-content; margin-inline: auto;
@@ -386,7 +383,6 @@ section { position: relative; padding: 0 var(--gutter); }
 @media (max-width: 899px) {
   :root { --hud: 64px; }
   .nav, .hud-geo, .hud-status { display: none; }
-  .brand-name { font-size: 14px; }
   .hud::before { content: ""; position: absolute; inset: 0 0 auto; height: 76px; background: linear-gradient(var(--bg) 40%, transparent); }
   .grid-lines i:nth-child(even) { display: none; }
   .hero { padding-bottom: 48px; }

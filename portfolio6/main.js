@@ -237,10 +237,13 @@ mm.add({ desktop: "(min-width: 900px)", mobile: "(max-width: 899px)", reduce: "(
       scrollTrigger: {
         trigger: ".work",
         start: "top top",
-        end: () => "+=" + (n - 1) * innerHeight * 0.85,
+        end: () => "+=" + (n - 1) * innerHeight * 1.3,
         pin: ".work-inner",
-        scrub: 1,
-        snap: { snapTo: "labels", duration: { min: 0.25, max: 0.7 }, delay: 0.05, ease: "power2.inOut" },
+        scrub: 1.4,
+        // weight: step to the adjacent project only, never carry flick velocity past it
+        snap: { snapTo: "labels", directional: true, inertia: false, duration: { min: 0.35, max: 0.8 }, delay: 0.12, ease: "power3.inOut" },
+        // heavier wheel while the reel is pinned so a hard scroll can't skip ahead
+        onToggle: (self) => { if (lenis) lenis.options.wheelMultiplier = self.isActive ? 0.45 : 1; },
         onUpdate: (self) => setActive(Math.round(self.progress * (n - 1))),
         invalidateOnRefresh: true,
       },
@@ -263,7 +266,7 @@ mm.add({ desktop: "(min-width: 900px)", mobile: "(max-width: 899px)", reduce: "(
       item.addEventListener("keydown", key);
       ctx.add(() => () => { item.removeEventListener("click", go); item.removeEventListener("keydown", key); });
     });
-    return () => { pinned = false; cards.forEach((c) => c.removeAttribute("tabindex")); };
+    return () => { pinned = false; if (lenis) lenis.options.wheelMultiplier = 1; cards.forEach((c) => c.removeAttribute("tabindex")); };
   }
 
   if (desktop && reduce) {
