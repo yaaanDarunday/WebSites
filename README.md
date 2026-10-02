@@ -9,13 +9,14 @@ Motion-heavy website experiments built with GSAP, studied from the [GSAP showcas
 | [`portfolio3/`](portfolio3) | A minimalist product-designer portfolio built on one blue square: it counts the loader, floods the screen and lands as the name's full stop, opens every project on a pinned stage, becomes a cursor that wraps what you hover, and floods the contact section. |
 | [`portfolio4/`](portfolio4) | An identity/type designer's portfolio as a specimen wall. The page never scrolls: wheel, drag and arrow keys glide an infinite, wrapping wall of work posters under a fixed row of tiny labels. Tiles Flip open into case views. It has a looping vertical wordmark and a rotating bio phrase. One typeface, no signal colour. |
 | [`portfolio5/`](portfolio5) | A dark fullstack-developer portfolio. A dithered dot field and a 3D cylinder of roles in the hero, a statement that lights up letter by letter, a pinned panel where the stack (UI, API, data, infra) is drawn in strokes and pulled apart layer by layer, and a pinned horizontal track of cream and ink project cards that each show which layers they touched. Science Gothic and Onest, no mono, no signal colour. |
+| [`portfolio6/`](portfolio6) | Yan Mark Darunday, a dark fullstack-developer portfolio built around a request trace. The loader draws a waterfall of timing bars and counts milliseconds. The hero is just the name, one line about the work and a link to it. A pinned index shows this repo's projects with the plugins each one uses, and the stack section wipes in with latency readouts. Bricolage Grotesque, Manrope and Martian Mono on near-black with a lime accent. |
 | [`gsap-showcase-study/`](gsap-showcase-study) | A measured breakdown of 7 GSAP-showcase sites covering type, colour, easing, scroll models and motion patterns. |
 | [`.claude/skills/building-gsap-motion-sites/`](.claude/skills/building-gsap-motion-sites) | A Claude Code skill that packages the study into rules, a pattern catalog and a starter template. |
 
 ## Run a portfolio locally
 
 ```bash
-cd portfolio1   # or portfolio2 … portfolio5
+cd portfolio1   # or portfolio2 … portfolio6
 python -m http.server 5173
 # open http://localhost:5173
 ```

@@ -5,7 +5,8 @@ async function createDb(config) {
       connectionString: config.databaseUrl,
       ssl: config.databaseSsl === false ? false : { rejectUnauthorized: false },
       max: 5,
-      connectionTimeoutMillis: 10_000,
+      connectionTimeoutMillis: 30_000, // a cold TLS+auth handshake to the pooler can take several seconds
+      idleTimeoutMillis: 600_000, // keep warm connections instead of re-handshaking
     });
     // Without this listener a dropped idle connection (pooler restart, network blip) crashes the process.
     pool.on("error", (err) => console.error("pg idle client error:", err.message));
@@ -45,4 +46,15 @@ async function createDb(config) {
   };
 }
 
-module.exports = { createDb };
+// Opens the first connection up front so the first customer doesn't pay the handshake.
+async function warmUp(db) {
+  try {
+    await db.query("select 1");
+    return true;
+  } catch (err) {
+    console.error("database warm-up failed:", err.message);
+    return false;
+  }
+}
+
+module.exports = { createDb, warmUp };
