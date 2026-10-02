@@ -76,3 +76,25 @@ html.cart-open .cart { transform: none; visibility: visible; transition: transfo
 .btn:disabled { opacity: 0.35; cursor: not-allowed; }
 .btn:focus-visible, .qty button:focus-visible, .cart-x:focus-visible { outline: 2px solid var(--cherry); outline-offset: 2px; }
 @media (max-width: 899px) { .cart-line { grid-template-columns: 1fr auto; } .cart-line-total { grid-column: 2; grid-row: 1; } .qty { grid-column: 1 / -1; } }
+
+/* --- checkout form ----------------------------------------------- */
+.checkout { display: grid; gap: 18px; padding-top: 16px; }
+.fs { border: 0; margin: 0; padding: 0; display: grid; gap: 12px; min-width: 0; }
+.fs[hidden] { display: none; }
+.fs legend { font: 700 13px/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--terrain); padding: 0 0 10px; }
+.field { display: grid; gap: 6px; }
+.field > span { font: 700 12px/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; }
+.field input, .field select {
+  font: 400 17px/1.2 var(--f-serif); padding: 12px 12px; border: 1.5px solid var(--ink); background: #fff8; color: var(--ink); border-radius: 0; width: 100%;
+}
+.field input:focus-visible, .field select:focus-visible { outline: 2px solid var(--cherry); outline-offset: 1px; }
+.field-note { font-size: 13px; font-style: italic; color: var(--ink-64); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.choices .choice { display: flex; gap: 10px; align-items: baseline; padding: 12px; border: 1.5px solid var(--ink-32); cursor: pointer; }
+.choices .choice:has(input:checked) { border-color: var(--ink); background: var(--paper-2); }
+.choices .choice.is-disabled { opacity: 0.5; cursor: not-allowed; }
+.choice em { margin-left: auto; font-size: 13px; color: var(--terrain); }
+.form-error { min-height: 1.2em; color: var(--cherry); font-weight: 600; }
+.cart-foot-inline { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 8px; }
+.link { background: none; border: 0; padding: 0; font: 700 13px/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.link:hover { color: var(--cherry); }
