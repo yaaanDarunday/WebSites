@@ -30,7 +30,7 @@ Browser → `fetch` → Express API → Postgres.
 
 `products`: id, kind (`drink` | `food` | `beans`), name, note, price_cents, available, sort order.
 
-`orders`: id, public code (e.g. `ALT-4K9F`, unguessable enough to act as the customer's status-page key), customer name, email, fulfilment (`pickup` | `ship`), pickup_slot, shipping address fields, status, total_cents, idempotency_key (unique), created_at, updated_at.
+`orders`: id, public code (e.g. `ALT-4K9F-X2QM`: 8 characters from a 30-letter/digit alphabet, unguessable enough to act as the customer's status-page key), customer name, email, fulfilment (`pickup` | `ship`), pickup_slot, shipping address fields, status, total_cents, idempotency_key (unique), created_at, updated_at.
 
 `order_items`: order_id, product_id, name snapshot, unit price_cents snapshot, qty.
 
@@ -43,8 +43,8 @@ Seed data comes from the current menu (14 items, 4 groups) and `BEANS` (3 lots) 
 | `GET /api/health` | none | liveness |
 | `GET /api/products` | none | menu and beans |
 | `GET /api/slots` | none | 15-minute pickup slots inside opening hours, with remaining capacity |
-| `POST /api/orders` | none | create order; server recomputes total; honours idempotency key |
-| `GET /api/orders/:code` | none (code is the key) | customer status |
+| `POST /api/orders` | none | create order; server recomputes total; honours idempotency key; response includes `tz`, the café's timezone, so times display in café time |
+| `GET /api/orders/:code` | none (code is the key) | customer status (also returns `tz`) |
 | `POST /api/staff/login` | passcode | returns signed token |
 | `GET /api/staff/orders` | staff | list orders, filterable by status |
 | `PATCH /api/staff/orders/:id/status` | staff | advance or cancel |
