@@ -57,6 +57,7 @@ const BEANS = [
     facts: [["Altitude", "1,100–1,850 m"], ["Process", "Washed & natural"], ["Use", "Espresso & milk"]], roast: 4, price: 12, seed: 3 },
 ];
 
+const fmt = (h) => `${h % 12 || 12} ${h < 12 || h === 24 ? "AM" : "PM"}`;
 const HOURS = [ // index = Date.getDay()
   ["Sunday", 8, 16], ["Monday", 7, 17], ["Tuesday", 7, 17], ["Wednesday", 7, 17],
   ["Thursday", 7, 17], ["Friday", 7, 17], ["Saturday", 8, 16],
@@ -101,7 +102,7 @@ function contourPath(geometry, x0, y0, cell) {
   let d = "";
   for (const polygon of geometry.coordinates) {
     for (const ring of polygon) {
-      d += "M" + ring.map(([gx, gy]) => `${(x0 + gx * cell).toFixed(1)},${(y0 + gy * cell).toFixed(1)}`).join("L") + "Z";
+      d += "M" + ring.map(([gx, gy]) => `${Math.round(x0 + gx * cell)},${Math.round(y0 + gy * cell)}`).join("L") + "Z";
     }
   }
   return d;
@@ -125,7 +126,7 @@ const tint = (t) => {
 
 function buildTerrain() {
   const noise = makeNoise(7);
-  const X0 = -400, Y0 = -300, CELL = 10;
+  const X0 = -400, Y0 = -300, CELL = 12;
   const nx = Math.ceil((MAP_W + 800) / CELL), ny = Math.ceil((MAP_H + 600) / CELL);
   const hills = [[272, 200, 1.0, 330], [640, 140, 0.62, 240], [1280, 160, 0.55, 270], [1490, 500, 0.4, 220], [160, 720, 0.35, 230], [670, 930, 0.25, 190], [1500, 900, 0.3, 200]];
   const values = new Float64Array(nx * ny);
@@ -213,6 +214,7 @@ function buildTrail() {
     .forEach(([d]) => el("path", { d, class: "trail-ghost" }, g));
   const d = "M" + pts.map((p) => p.map((n) => n.toFixed(1)).join(",")).join("L");
   el("path", { d, class: "trail-ghost trail-main-ghost" }, g);
+  trail.glow = el("path", { d, class: "trail-live-glow" }, g);
   trail.live = el("path", { d, class: "trail-live" }, g);
   // the bean rides above the stops; it is only visible while travelling
   trail.marker = el("g", { class: "marker" });
@@ -287,8 +289,10 @@ const markerPath = gsap.to(trail.marker, {
   motionPath: { path: trail.live, align: trail.live, alignOrigin: [0.5, 0.5], autoRotate: true },
   duration: 1, ease: "none", paused: true,
 });
+const liveLen = trail.live.getTotalLength();
+trail.live.style.strokeDasharray = trail.glow.style.strokeDasharray = liveLen;
 const applyProgress = () => {
-  gsap.set(trail.live, { drawSVG: `0% ${progress.p * 100}%` });
+  trail.live.style.strokeDashoffset = trail.glow.style.strokeDashoffset = liveLen * (1 - progress.p);
   markerPath.progress(progress.p);
 };
 
@@ -316,7 +320,7 @@ const alt = { v: STOPS[0].alt };
 const applyAlt = () => (altEl.textContent = Math.round(alt.v / 10) * 10 >= 1000
   ? (Math.round(alt.v / 10) * 10).toLocaleString("en") : String(Math.round(alt.v / 10) * 10));
 
-const HUD = [".rail-title", ".legend-stops", ".legend-keys", ".ruler", ".side", ".survey", ".scalebar-l", ".hint"];
+const HUD = [".rail-title", ".legend-stops", ".ruler", ".survey", ".scalebar-l", ".hint"];
 
 /* ------------------------------------------------------------------
    Stepped stage
@@ -331,6 +335,7 @@ function goTo(next, instant = false) {
   const prev = step;
   step = next;
   busy = true;
+  gsap.killTweensOf(".hint");
 
   $$(".stop").forEach((s) => s.classList.toggle("is-active", Number(s.dataset.step) === step));
   stage.classList.toggle("is-deep", step > 0);
@@ -508,17 +513,16 @@ const hoursBody = $(".visit-hours tbody");
   const [day, o, c] = HOURS[d];
   const tr = document.createElement("tr");
   tr.dataset.day = d;
-  tr.innerHTML = `<th scope="row">${day}</th><td>${String(o).padStart(2, "0")}:00 – ${c}:00</td>`;
+  tr.innerHTML = `<th scope="row">${day}</th><td>${fmt(o)} – ${fmt(c)}</td>`;
   hoursBody.appendChild(tr);
 });
 function tick() {
   const now = new Date();
-  $(".ruler-clock").textContent = `${now.toLocaleTimeString("en-GB", { hour12: false })} local`;
   const [, o, c] = HOURS[now.getDay()];
   const h = now.getHours() + now.getMinutes() / 60;
   const open = h >= o && h < c;
   const nextOpen = HOURS[(now.getDay() + (h >= c ? 1 : 0)) % 7][1];
-  const label = open ? `Open now · till ${c}:00` : `Closed · opens ${String(nextOpen).padStart(2, "0")}:00`;
+  const label = open ? `Open now · till ${fmt(c)}` : `Closed · opens ${fmt(nextOpen)}`;
   html.classList.toggle("is-open", open);
   $(".ruler-status em").textContent = label;
   $(".visit-status span").textContent = label;
@@ -571,8 +575,9 @@ function intro() {
     .from(".trail-ghost", { autoAlpha: 0, duration: 1.2, stagger: 0.1 }, 0.1)
     .from(".stop-body", { scale: 0, transformOrigin: "50% 50%", duration: 0.6, ease: "pop", stagger: 0.12 }, 0.5)
     .from(".rail > *, .ruler > span", { autoAlpha: 0, y: 10, duration: 0.5, stagger: 0.04 }, 0.2)
-    .from(".card, .skip", { autoAlpha: 0, y: 20, duration: 0.6, ease: "pop" }, 0.7)
-    .from(".hint", { autoAlpha: 0, duration: 0.6 }, 1.2);
+    .from(".card, .skip", { autoAlpha: 0, y: 20, duration: 0.6, ease: "pop" }, 0.7);
+  // standalone so goTo() can kill it; inside the timeline it re-showed the hint after leaving the overview
+  gsap.from(".hint", { autoAlpha: 0, duration: 0.6, delay: 1.2, ease: "circ" });
 }
 
 function runLoader() {
