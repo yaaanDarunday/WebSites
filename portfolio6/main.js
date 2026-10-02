@@ -15,22 +15,22 @@ const SCRAMBLE_CHARS = "01<>/{}[]=+*#_";
 
 /* The projects in this repo. `trace` lists what each one is built on. */
 const projects = [
-  { slug: "coffee1", name: "Altura Coffee", type: "Brand site · Café", motif: "Contour trail map",
+  { slug: "coffee1", url: "https://altura-coffee.coffee1.workers.dev/", name: "Altura Coffee", type: "Brand site · Café", motif: "Contour trail map",
     desc: "A café site drawn as a trail map. Scrolling walks a coffee bean from a 1,850 m farm down to a riverside café.",
     trace: ["ScrollTrigger", "DrawSVG", "MotionPath", "Observer"] },
-  { slug: "portfolio1", name: "Iris Vale", type: "Portfolio · Designer", motif: "Spinning disc",
+  { slug: "portfolio1", url: "https://irisvale.pages.dev/", name: "Iris Vale", type: "Portfolio · Designer", motif: "Spinning disc",
     desc: "Odometer preloader, masked line reveals, a pinned work index, colour-wipe services and a live HUD.",
     trace: ["ScrollTrigger", "SplitText", "ScrambleText", "Lenis"] },
-  { slug: "portfolio2", name: "Juno Raske", type: "Portfolio · Director", motif: "Film frame & timecode",
+  { slug: "portfolio2", url: "https://junoraske.pages.dev/", name: "Juno Raske", type: "Portfolio · Director", motif: "Film frame & timecode",
     desc: "A timecode slate loader, a letterbox hero that opens full-bleed and a pinned horizontal film reel.",
     trace: ["ScrollTrigger", "SplitText", "ScrambleText", "Lenis"] },
-  { slug: "portfolio3", name: "Aiko Lund", type: "Portfolio · Product designer", motif: "One blue square",
+  { slug: "portfolio3", url: "https://aikolund.pages.dev/", name: "Aiko Lund", type: "Portfolio · Product designer", motif: "One blue square",
     desc: "One square counts the loader, floods the screen, becomes the cursor and opens every project on a pinned stage.",
     trace: ["ScrollTrigger", "SplitText", "ScrambleText", "Lenis"] },
-  { slug: "portfolio4", name: "Ossian Hale", type: "Portfolio · Type designer", motif: "Infinite specimen wall",
+  { slug: "portfolio4", url: "https://ossianhale.pages.dev/", name: "Ossian Hale", type: "Portfolio · Type designer", motif: "Infinite specimen wall",
     desc: "The page never scrolls. Wheel, drag and arrow keys glide a wrapping wall of posters that Flip open into case views.",
     trace: ["Observer", "Flip"] },
-  { slug: "portfolio5", name: "Ilan Reyes", type: "Portfolio · Fullstack", motif: "The stack in strokes",
+  { slug: "portfolio5", url: "https://ilanreyes.pages.dev/", name: "Ilan Reyes", type: "Portfolio · Fullstack", motif: "The stack in strokes",
     desc: "A dithered dot field, a 3D cylinder of roles and a pinned panel that pulls the stack apart layer by layer.",
     trace: ["ScrollTrigger", "Lenis"] },
 ];
@@ -80,8 +80,8 @@ const list = $(".work-list");
 stage.innerHTML = projects.map((p, i) => {
   const media = `<div class="card-media"><img src="assets/${p.slug}.jpg" alt="Screenshot of the ${p.name} home page" width="1440" height="900" loading="${i < 2 ? "eager" : "lazy"}" decoding="async"></div>`;
   return `
-  <a class="card" href="../${p.slug}/" data-cursor="Open" aria-label="${p.name}, ${p.type}. Open the site">
-    <div class="card-chrome mono" aria-hidden="true"><i><b></b></i><span class="card-url">~/WebSites/${p.slug}/</span><span>${String(i + 1).padStart(2, "0")}</span></div>
+  <a class="card" href="${p.url}" target="_blank" rel="noopener" data-cursor="Open" aria-label="${p.name}, ${p.type}. Open the site">
+    <div class="card-chrome mono" aria-hidden="true"><i><b></b></i><span class="card-url">${p.url.replace(/^https:\/\//, "").replace(/\/$/, "")}</span><span>${String(i + 1).padStart(2, "0")}</span></div>
     ${media}
     <div class="card-foot"><h3 class="card-title">${p.name}</h3><span class="card-open mono">Open site ↗</span></div>
   </a>`;
