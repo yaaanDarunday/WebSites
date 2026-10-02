@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ilan Reyes — Fullstack Developer</title>
+  <meta name="description" content="Ilan Reyes is a fullstack developer building the interface, the API, the data and the infrastructure behind it.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230a0a0a%22/%3E%3Cpath d=%22M6 12l10-5 10 5-10 5zM6 17l10 5 10-5M6 22l10 5 10-5%22 fill=%22none%22 stroke=%22%23fefaee%22 stroke-width=%221.6%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..700&family=Science+Gothic:wdth,wght@50..200,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="wordmark" href="#top" aria-label="Ilan Reyes, back to top">Ilan Reyes</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#stack"><span>01</span> Stack</a>
+      <a href="#work"><span>02</span> Work</a>
+      <a href="#log"><span>03</span> Log</a>
+      <a href="#contact"><span>04</span> Contact</a>
+    </nav>
+    <p class="clock"><span>Lisbon</span> <time class="clock-time">--:--</time></p>
+  </header>
+
+  <main id="main">
+    <!-- Hero: dithered field, the name, a cylinder of roles -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <canvas class="dither" aria-hidden="true"></canvas>
+      <h1 class="hero-title" id="hero-title">
+        <span class="hero-line">Ilan</span>
+        <span class="hero-line">Reyes</span>
+      </h1>
+      <div class="hero-meta">
+        <p class="hero-role">Fullstack developer, from schema to pixel.</p>
+        <p class="hero-status">Taking on new work from <strong>January 2027</strong></p>
+      </div>
+      <div class="cylinder" aria-hidden="true">
+        <div class="cylinder-ring"></div>
+      </div>
+      <p class="sr-only">Interfaces, APIs, databases, infrastructure, realtime systems and developer experience.</p>
+    </section>
+
+    <!-- Statement: lit letter by letter as it scrolls through -->
+    <section class="statement" aria-label="About">
+      <p class="statement-text" data-fill>I build the whole thing: the interface you touch, the API behind it, the data it remembers and the infrastructure that keeps it standing. One person across the stack means no hand-offs lost in translation.</p>
+    </section>
+
+    <!-- Stack: a pinned inset panel, the layers drawn in strokes, then pulled apart -->
+    <section class="stack" id="stack" aria-labelledby="stack-title">
+      <div class="stack-panel">
+        <div class="stack-copy">
+          <p class="eyebrow"><span>01</span> The stack</p>
+          <h2 class="stack-title" id="stack-title">Four layers.<br>One owner.</h2>
+          <ol class="layers"></ol>
+        </div>
+        <div class="stack-figure">
+          <svg class="iso" aria-hidden="true"></svg>
+          <p class="stack-hud" aria-hidden="true"><span class="stack-hud-n">00</span>/04 <span class="stack-hud-k">Assembled</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work: a pinned horizontal track of alternating cream/ink cards -->
+    <section class="work" id="work" aria-labelledby="work-title">
+      <div class="work-pin">
+        <div class="work-head">
+          <p class="eyebrow"><span>02</span> Selected work</p>
+          <h2 class="work-title" id="work-title">Shipped, end to end.</h2>
+          <p class="work-count" aria-hidden="true"><span class="work-count-n">01</span> / <span class="work-count-total">06</span></p>
+        </div>
+        <ol class="track"></ol>
+      </div>
+    </section>
+
+    <!-- Log: experience rows that invert on hover -->
+    <section class="log" id="log" aria-labelledby="log-title">
+      <p class="eyebrow"><span>03</span> Log</p>
+      <h2 class="log-title" id="log-title">Where it was built.</h2>
+      <ol class="log-list"></ol>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <p class="eyebrow"><span>04</span> Contact</p>
+      <h2 class="contact-title" id="contact-title" data-fill>Let's build it.</h2>
+      <a class="contact-mail" href="mailto:hello@ilanreyes.dev">hello@ilanreyes.dev <span aria-hidden="true">↗</span></a>
+      <ul class="contact-links">
+        <li><a href="https://github.com/" rel="noopener">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/" rel="noopener">LinkedIn</a></li>
+        <li><a href="#" >CV (PDF)</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© <span class="year"></span> Ilan Reyes</span>
+    <span>Built by hand with GSAP and Lenis</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
