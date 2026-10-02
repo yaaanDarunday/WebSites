@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const { ApiError, errorHandler } = require("./errors");
 const { makeLimiters } = require("./limits");
 const { publicRoutes } = require("./routes/public");
+const { staffRoutes } = require("./routes/staff");
 
 function createApp({ db, config, now = () => new Date() }) {
   const app = express();
@@ -24,6 +25,7 @@ function createApp({ db, config, now = () => new Date() }) {
   });
 
   app.use("/api", publicRoutes({ db, config, now, limits }));
+  app.use("/api/staff", staffRoutes({ db, config, limits }));
 
   app.use("/api", (req, res, next) => next(new ApiError(404, "not_found", "No such endpoint.")));
   app.use(errorHandler);
